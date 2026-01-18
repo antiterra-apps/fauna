@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Fraunces, Cabin, Libre_Baskerville } from 'next/font/google'
 import './globals.css'
 import { PaletteProvider } from '@/components/PaletteProvider'
+import { AuthProvider } from '@/components/AuthProvider'
 import { ConditionalTopNav } from '@/components/ConditionalTopNav'
 
 const fraunces = Fraunces({
@@ -36,10 +37,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fraunces.variable} ${cabin.variable} ${libreBaskerville.variable}`}>
       <body className="font-sans">
-        <PaletteProvider>
-          <ConditionalTopNav />
-          <main>{children}</main>
-        </PaletteProvider>
+        <AuthProvider>
+          <PaletteProvider>
+            <ConditionalTopNav />
+            <main>{children}</main>
+          </PaletteProvider>
+        </AuthProvider>
       </body>
     </html>
   )

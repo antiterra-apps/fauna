@@ -11,7 +11,7 @@ interface PricingModalProps {
 
 export function PricingModal({ isOpen, onClose }: PricingModalProps) {
   const router = useRouter()
-  const { user, upgradeToPro, login } = useAuth()
+  const { user, upgradeToPro, isPro } = useAuth()
 
   useEffect(() => {
     if (isOpen) {
@@ -27,13 +27,24 @@ export function PricingModal({ isOpen, onClose }: PricingModalProps) {
   if (!isOpen) return null
 
   const handleUpgrade = () => {
+    if (isPro) {
+      router.push('/app')
+      onClose()
+      return
+    }
     if (!user) {
       router.push('/login')
       onClose()
-    } else {
-      upgradeToPro()
-      onClose()
+      return
     }
+    upgradeToPro()
+    router.push('/app')
+    onClose()
+  }
+
+  const handleCustom = () => {
+    router.push('/pricing')
+    onClose()
   }
 
   return (
@@ -45,42 +56,84 @@ export function PricingModal({ isOpen, onClose }: PricingModalProps) {
         className="bg-[var(--bg)] border border-[var(--divider)] max-w-lg w-full mx-4 p-8"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-2xl font-serif text-[var(--fg)] mb-4">Get Pro</h2>
-        <p className="text-[var(--muted)] mb-6">
-          Unlock all assets, commercial licenses, and premium features.
-        </p>
-        <div className="space-y-4 mb-8">
-          <div className="flex items-center gap-3">
-            <span className="text-[var(--accent)]">✓</span>
-            <span className="text-[var(--fg)]">Access to all Pro assets</span>
+        <h2 className="text-2xl font-serif text-[var(--fg)] mb-2">Choose a plan</h2>
+        <p className="text-[var(--muted)] mb-6">Free, Pro, or a custom license.</p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+          <div className="border border-[var(--divider)] p-4">
+            <div className="text-[var(--fg)] font-medium mb-1">Free</div>
+            <div className="text-[var(--muted)] text-sm mb-4">Explore and download free assets.</div>
+            <div className="space-y-2 mb-4 text-sm">
+              <div className="flex items-center gap-2">
+                <span className="text-[var(--accent)]">✓</span>
+                <span className="text-[var(--fg)]">Free collection access</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[var(--accent)]">✓</span>
+                <span className="text-[var(--fg)]">Basic downloads</span>
+              </div>
+            </div>
+            <button
+              onClick={onClose}
+              className="w-full px-4 py-2 border border-[var(--divider)] text-[var(--fg)] hover:bg-[var(--divider)] transition-colors"
+            >
+              Continue
+            </button>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="text-[var(--accent)]">✓</span>
-            <span className="text-[var(--fg)]">Commercial license included</span>
+
+          <div className="border border-[var(--divider)] p-4">
+            <div className="text-[var(--fg)] font-medium mb-1">Pro</div>
+            <div className="text-[var(--muted)] text-sm mb-4">Everything, plus licensing and exports.</div>
+            <div className="space-y-2 mb-4 text-sm">
+              <div className="flex items-center gap-2">
+                <span className="text-[var(--accent)]">✓</span>
+                <span className="text-[var(--fg)]">All Pro assets</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[var(--accent)]">✓</span>
+                <span className="text-[var(--fg)]">Commercial license</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[var(--accent)]">✓</span>
+                <span className="text-[var(--fg)]">High-res + SVG exports</span>
+              </div>
+            </div>
+            <button
+              onClick={handleUpgrade}
+              className="w-full px-4 py-2 bg-[var(--accent)] text-[var(--bg)] font-medium hover:opacity-90 transition-opacity"
+            >
+              {isPro ? 'Go to App' : user ? 'Upgrade' : 'Log in'}
+            </button>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="text-[var(--accent)]">✓</span>
-            <span className="text-[var(--fg)]">High-res and SVG exports</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-[var(--accent)]">✓</span>
-            <span className="text-[var(--fg)]">Batch downloads</span>
+
+          <div className="border border-[var(--divider)] p-4">
+            <div className="text-[var(--fg)] font-medium mb-1">Custom</div>
+            <div className="text-[var(--muted)] text-sm mb-4">Teams, enterprise, and special licensing.</div>
+            <div className="space-y-2 mb-4 text-sm">
+              <div className="flex items-center gap-2">
+                <span className="text-[var(--accent)]">✓</span>
+                <span className="text-[var(--fg)]">Custom terms</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[var(--accent)]">✓</span>
+                <span className="text-[var(--fg)]">Invoice / purchase order</span>
+              </div>
+            </div>
+            <button
+              onClick={handleCustom}
+              className="w-full px-4 py-2 border border-[var(--divider)] text-[var(--fg)] hover:bg-[var(--divider)] transition-colors"
+            >
+              Contact
+            </button>
           </div>
         </div>
-        <div className="flex gap-4">
-          <button
-            onClick={handleUpgrade}
-            className="flex-1 px-6 py-3 bg-[var(--accent)] text-[var(--bg)] font-medium hover:opacity-90 transition-opacity"
-          >
-            {user ? 'Upgrade to Pro' : 'Log in to Upgrade'}
-          </button>
-          <button
-            onClick={onClose}
-            className="px-6 py-3 border border-[var(--divider)] text-[var(--fg)] hover:bg-[var(--divider)] transition-colors"
-          >
-            Cancel
-          </button>
-        </div>
+
+        <button
+          onClick={onClose}
+          className="w-full px-6 py-3 border border-[var(--divider)] text-[var(--fg)] hover:bg-[var(--divider)] transition-colors"
+        >
+          Close
+        </button>
       </div>
     </div>
   )

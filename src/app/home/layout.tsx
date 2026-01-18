@@ -35,7 +35,7 @@ export default function HeroLayout({
   const offsetY = sequenceComplete ? (mousePosition.y - 0.5) * 3 : 0
 
   return (
-    <div 
+    <div
       className="fixed inset-0 overflow-hidden" 
       style={{ 
         backgroundColor: '#2a2618',

@@ -2,10 +2,20 @@
 
 import { motion, useAnimationControls } from 'framer-motion'
 import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '@/hooks/useAuth'
 
 export default function HeroPage() {
+  const router = useRouter()
+  const { user, loading } = useAuth()
   const borderControls = useAnimationControls()
   const blurControls = useAnimationControls()
+
+  useEffect(() => {
+    if (!loading && user) {
+      router.push('/app')
+    }
+  }, [user, loading, router])
 
   useEffect(() => {
     const sequence = async () => {
@@ -22,6 +32,8 @@ export default function HeroPage() {
     }
     sequence()
   }, [borderControls, blurControls])
+
+  if (!loading && user) return null
 
   return (
     <>

@@ -1,59 +1,72 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
+import HeroLayout from '@/app/home/layout'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const router = useRouter()
   const { login, user } = useAuth()
 
-  if (user) {
-    router.push('/app')
-    return null
-  }
+  useEffect(() => {
+    if (user) router.push('/app')
+  }, [user, router])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (email.trim()) {
-      login(email.trim())
+    if (email.trim() && password) {
+      await login(email.trim(), password)
       router.push('/app')
     }
   }
 
+  if (user) return null
+
   return (
-    <div className="pt-16 min-h-screen flex items-center justify-center">
-      <div className="max-w-md w-full mx-4">
-        <h1 className="text-4xl font-serif text-[var(--fg)] mb-8 text-center">
-          Log in
-        </h1>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label htmlFor="email" className="block text-sm text-[var(--muted)] mb-2">
-              Email
-            </label>
+    <HeroLayout>
+      <div className="min-h-screen w-full flex items-center justify-center px-6">
+        <div className="w-96 flex flex-col items-center text-center gap-5">
+          <div
+            className="w-full text-white text-xl font-light"
+            style={{ fontFamily: 'Helvetica, Arial, sans-serif' }}
+          >
+            A generative illustration library
+          </div>
+
+          <form onSubmit={handleSubmit} className="w-full flex flex-col gap-3">
             <input
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-3 bg-transparent border border-[var(--divider)] text-[var(--fg)] focus:outline-none focus:border-[var(--accent)] transition-colors"
-              placeholder="you@example.com"
+              placeholder="Email address"
+              className="w-full px-4 py-3 bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder:text-white/60 focus:outline-none focus:border-white/40 text-sm font-light"
+              style={{ borderRadius: 0 }}
             />
-          </div>
-          <button
-            type="submit"
-            className="w-full px-6 py-3 bg-[var(--accent)] text-[var(--bg)] font-medium hover:opacity-90 transition-opacity"
-          >
-            Log in
-          </button>
-        </form>
-        <p className="mt-6 text-sm text-[var(--muted)] text-center">
-          This is a mock login. Enter any email to continue.
-        </p>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder="Password"
+              className="w-full px-4 py-3 bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder:text-white/60 focus:outline-none focus:border-white/40 text-sm font-light"
+              style={{ borderRadius: 0 }}
+            />
+            <button
+              type="submit"
+              className="w-full px-4 py-3 bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-light hover:bg-white/20 transition-all"
+              style={{ borderRadius: 0 }}
+            >
+              Continue
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+    </HeroLayout>
   )
 }
