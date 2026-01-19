@@ -8,6 +8,8 @@ import HeroLayout from '@/app/home/layout'
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState<string | null>(null)
+  const [submitting, setSubmitting] = useState(false)
   const router = useRouter()
   const { login, user } = useAuth()
 
@@ -17,9 +19,20 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (submitting) return
     if (email.trim() && password) {
-      await login(email.trim(), password)
-      router.push('/app')
+      setSubmitting(true)
+      setError(null)
+      try {
+        const res = await login(email.trim(), password)
+        if (!res || res.ok !== true) {
+          setError('Invalid email or password.')
+          return
+        }
+        router.push('/app')
+      } finally {
+        setSubmitting(false)
+      }
     }
   }
 
@@ -57,12 +70,21 @@ export default function LoginPage() {
               className="w-full px-4 py-3 bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder:text-white/60 focus:outline-none focus:border-white/40 text-sm font-light"
               style={{ borderRadius: 0 }}
             />
+            {error && (
+              <div
+                className="text-xs font-light text-white/80 text-left"
+                style={{ fontFamily: 'Helvetica, Arial, sans-serif' }}
+              >
+                {error}
+              </div>
+            )}
             <button
               type="submit"
+              disabled={submitting}
               className="w-full px-4 py-3 bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-light hover:bg-white/20 transition-all"
               style={{ borderRadius: 0 }}
             >
-              Continue
+              {submitting ? 'Signing in…' : 'Continue'}
             </button>
           </form>
         </div>
