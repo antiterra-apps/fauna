@@ -2,6 +2,9 @@ import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
 const handler = NextAuth({
+  // Required for stable JWT encryption/signing in production.
+  // Set this in Vercel env vars (Production/Preview): NEXTAUTH_SECRET
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: 'Email',
@@ -20,6 +23,7 @@ const handler = NextAuth({
   session: { strategy: 'jwt' },
   pages: {
     signIn: '/login',
+    error: '/login',
   },
 })
 
