@@ -42,7 +42,7 @@ function normalizeSvgMarkup(raw: string, aspect: 'meet' | 'slice', disableSecond
     const hasStyle = /\sstyle=/.test(cleanedAttrs)
     const styleAppend = hasStyle ? '' : ' style="display:block;width:100%;height:100%;"'
     const classedAttrs = /\bclass=/.test(cleanedAttrs)
-      ? cleanedAttrs.replace(/\bclass=(".*?"|'.*?')/i, (cm) => cm.slice(0, -1) + ' fauna-svg-scope' + cm.slice(-1))
+      ? cleanedAttrs.replace(/\bclass=(".*?"|'.*?')/i, (cm: string) => cm.slice(0, -1) + ' fauna-svg-scope' + cm.slice(-1))
       : `${cleanedAttrs} class="fauna-svg-scope"`
 
     const injectedViewBox =
