@@ -69,7 +69,7 @@ function TopNavContent() {
               <Link
                 href="/account"
                 aria-label="Account"
-                className="px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-light hover:bg-white/20 transition-all flex items-center justify-center"
+                className="w-10 h-10 bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-light hover:bg-white/20 transition-all flex items-center justify-center"
                 style={{ borderRadius: 0 }}
               >
                 <IconUser size={16} strokeWidth={1} className="text-white" />

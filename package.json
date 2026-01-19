@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate:svgs:upload": "tsx scripts/generate-and-upload-themed-svgs.ts",
+    "generate:svgs:variants:upload": "tsx scripts/generate-and-upload-variant-svgs.ts"
   },
   "dependencies": {
     "@tabler/icons-react": "^3.36.1",
@@ -17,12 +19,18 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@vercel/blob": "^2.0.0",
     "@types/node": "^20.14.12",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.19",
+    "imagetracerjs": "^1.2.6",
+    "pngjs": "^7.0.0",
     "postcss": "^8.4.40",
+    "potrace": "^2.1.8",
+    "sharp": "^0.34.4",
     "tailwindcss": "^3.4.7",
+    "tsx": "^4.20.5",
     "typescript": "^5.5.4"
   }
 }

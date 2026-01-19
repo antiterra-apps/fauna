@@ -23,6 +23,15 @@ export type Asset = {
   isFree: boolean;
   collectionId: string;
   conceptType?: string;
+  metadata?: {
+    blobUrl?: string;
+    svgUrl?: string;
+    svgPotraceUrl?: string;
+    svgCenterlineUrl?: string;
+    tags?: string[];
+    createdAt?: string;
+    source?: string;
+  };
 }
 
 export type User = {
