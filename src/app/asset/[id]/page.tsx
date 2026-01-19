@@ -9,12 +9,11 @@ import { PricingModal } from '@/components/PricingModal'
 import { Skeleton } from '@/components/Skeleton'
 
 const COLOR_PRESETS = [
-  { id: 'default' },
-  { id: 'cream_charcoal', primary: '#f3efe7', secondary: '#1b1b1b' },
-  { id: 'cobalt_ice', primary: '#2d5bff', secondary: '#d8e6ff' },
-  { id: 'rust_sand', primary: '#c25a3c', secondary: '#f1d6b8' },
-  { id: 'lavender_ink', primary: '#b9a7ff', secondary: '#0f1637' },
-  { id: 'emerald_mint', primary: '#0f8a6a', secondary: '#b8f3df' },
+  { id: 'default', primary: '#1F3299', secondary: '#0B102D' },
+  { id: 'cream_charcoal', primary: '#3b2f1e', secondary: '#14100a' },
+  { id: 'rust_sand', primary: '#7a2f22', secondary: '#1f0c08' },
+  { id: 'lavender_ink', primary: '#5b4da6', secondary: '#140f2b' },
+  { id: 'emerald_mint', primary: '#0b5d4b', secondary: '#061f19' },
 ] as const
 
 function normalizeSvgMarkup(raw: string, aspect: 'meet' | 'slice', disableSecondaryStroke: boolean) {
@@ -169,34 +168,16 @@ export default function AssetDetailPage() {
           ? withSvgBust(centerlineSvgUrl)
           : undefined
 
-  const [showDownloadMenu, setShowDownloadMenu] = useState(false)
-  const downloadMenuRef = useRef<HTMLDivElement | null>(null)
   const [imageLoaded, setImageLoaded] = useState(false)
   const [svgMarkup, setSvgMarkup] = useState<string | null>(null)
   const [svgFailed, setSvgFailed] = useState(false)
   const [selectedPresetId, setSelectedPresetId] = useState<(typeof COLOR_PRESETS)[number]['id']>('default')
   const mediaRef = useRef<HTMLDivElement | null>(null)
-  const downloadButtonRef = useRef<HTMLButtonElement | null>(null)
   const backButtonRef = useRef<HTMLButtonElement | null>(null)
 
   const selectedPreset = COLOR_PRESETS.find(p => p.id === selectedPresetId) ?? COLOR_PRESETS[0]
-  const isDefaultColor = selectedPresetId === 'default'
-  const hasThemeStyleTag = svgMarkup ? /fill:var\(--svg-primary/i.test(svgMarkup) || /stroke:var\(--svg-secondary/i.test(svgMarkup) : false
-  const svgMarkupToRender = isDefaultColor
-    ? svgMarkup?.replace(/<style\b[^>]*>[\s\S]*?--svg-(primary|secondary)[\s\S]*?<\/style>/gi, '') ?? null
-    : svgMarkup
-
-  useEffect(() => {
-    if (!showDownloadMenu) return
-    const onPointerDown = (e: PointerEvent) => {
-      if (!downloadMenuRef.current) return
-      if (!downloadMenuRef.current.contains(e.target as Node)) {
-        setShowDownloadMenu(false)
-      }
-    }
-    document.addEventListener('pointerdown', onPointerDown)
-    return () => document.removeEventListener('pointerdown', onPointerDown)
-  }, [showDownloadMenu])
+  const svgMarkupToRender = svgMarkup
+  const svgDownloadUrl = activeSvgUrl ?? withSvgBust(potraceSvgUrl || currentSvgUrl || centerlineSvgUrl)
 
   useEffect(() => {
     let cancelled = false
@@ -247,7 +228,7 @@ export default function AssetDetailPage() {
     const firstShape = svg ? (svg.querySelector('path,rect,circle,ellipse,polygon,polyline') as SVGElement | null) : null
     const firstFill = firstShape ? getComputedStyle(firstShape as any).fill : null
     const firstStroke = firstShape ? getComputedStyle(firstShape as any).stroke : null
-  }, [assetId, svgMarkupToRender, selectedPresetId, isDefaultColor])
+  }, [assetId, svgMarkupToRender, selectedPresetId])
 
   const downloadFile = async (url: string, filename: string) => {
     const res = await fetch(url)
@@ -265,19 +246,60 @@ export default function AssetDetailPage() {
     URL.revokeObjectURL(objectUrl)
   }
 
-  const handleDownloadClick = () => {
-    if (!user) {
-      router.push('/login')
-      return
-    }
-    if (!isPro && !asset.isFree) {
-      setShowPricingModal(true)
-      return
-    }
-    setShowDownloadMenu((v) => !v)
+  const applyPaletteToSvgMarkup = (markup: string, primary: string, secondary: string) => {
+    const withColors = markup
+      .replace(/var\(--svg-primary[^)]*\)/gi, primary)
+      .replace(/var\(--svg-secondary[^)]*\)/gi, secondary)
+    if (/\sxmlns=/.test(withColors)) return withColors
+    return withColors.replace(/<svg\b/i, '<svg xmlns="http://www.w3.org/2000/svg"')
   }
 
-  const handleDownloadFormat = async (format: 'png') => {
+  const getImageSize = (url: string) =>
+    new Promise<{ width: number; height: number }>((resolve, reject) => {
+      const img = new Image()
+      img.decoding = 'async'
+      img.onload = () => resolve({ width: img.naturalWidth || img.width, height: img.naturalHeight || img.height })
+      img.onerror = () => reject(new Error('Failed to load image'))
+      img.src = url
+    })
+
+  const downloadPngFromSvg = async (svgMarkup: string, filename: string) => {
+    const { width, height } = await getImageSize(asset.imageUrl).catch(() => ({ width: 2048, height: 2048 }))
+    const svgString = `<?xml version="1.0" encoding="UTF-8"?>\n${svgMarkup}`
+    const svgUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgString)}`
+    const img = new Image()
+    img.decoding = 'async'
+    await new Promise<void>((resolve, reject) => {
+      img.onload = () => resolve()
+      img.onerror = () => reject(new Error('Failed to render svg'))
+      img.src = svgUrl
+    })
+
+    const canvas = document.createElement('canvas')
+    canvas.width = width
+    canvas.height = height
+    const ctx = canvas.getContext('2d')
+    if (!ctx) throw new Error('Canvas is unavailable')
+    ctx.drawImage(img, 0, 0, width, height)
+
+    const blob = await new Promise<Blob>((resolve, reject) => {
+      canvas.toBlob((b) => {
+        if (!b) reject(new Error('Failed to export png'))
+        else resolve(b)
+      }, 'image/png')
+    })
+
+    const objectUrl = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = objectUrl
+    a.download = filename
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    URL.revokeObjectURL(objectUrl)
+  }
+
+  const handleDownloadFormat = async (format: 'png' | 'svg') => {
     if (!user) {
       router.push('/login')
       return
@@ -286,13 +308,22 @@ export default function AssetDetailPage() {
       setShowPricingModal(true)
       return
     }
-    setShowDownloadMenu(false)
 
     try {
       if (format === 'png') {
-        await downloadFile(asset.imageUrl, `${asset.id}.png`)
+        if (svgDownloadUrl) {
+          const markup = svgMarkupToRender || normalizeSvgMarkup(await (await fetch(svgDownloadUrl)).text(), 'slice', true)
+          const colored = applyPaletteToSvgMarkup(markup, (selectedPreset as any).primary, (selectedPreset as any).secondary)
+          await downloadPngFromSvg(colored, `${asset.id}.png`)
+        } else {
+          await downloadFile(asset.imageUrl, `${asset.id}.png`)
+        }
       } else {
-        alert('SVG download is currently unavailable')
+        if (!svgDownloadUrl) {
+          alert('SVG is not available for this asset')
+          return
+        }
+        await downloadFile(svgDownloadUrl, `${asset.id}.svg`)
       }
     } catch {
       alert('Download failed')
@@ -313,18 +344,24 @@ export default function AssetDetailPage() {
             <span className="text-sm font-light">Back</span>
           </button>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-8">
             <div>
               <div
                 className="relative w-full aspect-square overflow-hidden"
-                style={{ backgroundColor: svgMarkup ? '#ffffff' : 'rgba(255, 255, 255, 0.04)' }}
+                style={{
+                  backgroundColor: '#f3efe7',
+                  backgroundImage:
+                    'url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27180%27%20height=%27180%27%3E%3Cfilter%20id=%27n%27%3E%3CfeTurbulence%20type=%27fractalNoise%27%20baseFrequency=%27.9%27%20numOctaves=%273%27%20stitchTiles=%27stitch%27/%3E%3CfeColorMatrix%20type=%27matrix%27%20values=%270%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20.10%200%27/%3E%3C/filter%3E%3Crect%20width=%27180%27%20height=%27180%27%20filter=%27url(%23n)%27/%3E%3C/svg%3E")',
+                  backgroundRepeat: 'repeat',
+                  backgroundSize: '180px 180px',
+                }}
               >
                 {!imageLoaded && <Skeleton className="absolute inset-0 bg-white/10" />}
                 {svgMarkup ? (
                 <div
                   ref={mediaRef}
                   className="w-full h-full flex items-center justify-center relative group"
-                  style={isDefaultColor ? undefined : {
+                  style={{
                     ['--svg-primary' as any]: (selectedPreset as any).primary,
                     ['--svg-secondary' as any]: (selectedPreset as any).secondary,
                   }}
@@ -348,6 +385,15 @@ export default function AssetDetailPage() {
                     onError={() => setImageLoaded(true)}
                   />
                 )}
+              </div>
+
+              <div className="mt-6">
+                <button
+                  onClick={() => setCompareMode((v) => !v)}
+                  className="text-sm font-light text-white/80 hover:text-white transition-colors"
+                >
+                  {compareMode ? 'Hide compare' : 'Compare tracing'}
+                </button>
               </div>
 
               {compareMode && (
@@ -377,7 +423,7 @@ export default function AssetDetailPage() {
                             <SvgTile
                               url={v.url}
                               variantId={v.id as 'current' | 'potrace' | 'centerline'}
-                              stripThemeStyle={isDefaultColor}
+                              stripThemeStyle={false}
                               primary={(selectedPreset as any).primary}
                               secondary={(selectedPreset as any).secondary}
                             />
@@ -414,7 +460,7 @@ export default function AssetDetailPage() {
                 </div>
               ) : (
                 <>
-                  <h1 className="text-4xl font-light mb-8">{displayTitle}</h1>
+                  <h1 className="text-4xl font-serif font-extralight mb-8">{displayTitle}</h1>
 
                   {collection && (
                     <div className="mb-8">
@@ -422,6 +468,51 @@ export default function AssetDetailPage() {
                       <div className="text-sm font-light">{collection.title}</div>
                     </div>
                   )}
+
+                  {svgMarkup && !svgFailed && (
+                    <div className="mt-8 mb-10">
+                      <div className="text-[11px] font-light tracking-wider text-white/50 uppercase mb-3">COLOR</div>
+                      <div className="flex gap-3">
+                        {COLOR_PRESETS.map((p) => (
+                          <button
+                            key={p.id}
+                            onClick={() => setSelectedPresetId(p.id)}
+                            aria-label={`Color preset ${p.id}`}
+                            className="w-9 h-9 border transition-colors"
+                            style={{
+                              borderRadius: 0,
+                              backgroundColor: (p as any).primary,
+                              borderColor: selectedPresetId === p.id ? 'rgba(255, 255, 255, 0.6)' : 'rgba(255, 255, 255, 0.15)',
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="mb-10">
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => handleDownloadFormat('png')}
+                        className="px-3 py-3 bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all inline-flex items-center gap-2"
+                        style={{ borderRadius: 0 }}
+                        aria-label="Download PNG"
+                      >
+                        <IconDownload size={18} strokeWidth={1.5} className="text-white" />
+                        <span className="text-sm font-light text-white">PNG</span>
+                      </button>
+                      <button
+                        onClick={() => handleDownloadFormat('svg')}
+                        disabled={!svgDownloadUrl}
+                        className="px-3 py-3 bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all inline-flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white/10"
+                        style={{ borderRadius: 0 }}
+                        aria-label="Download SVG"
+                      >
+                        <IconDownload size={18} strokeWidth={1.5} className="text-white" />
+                        <span className="text-sm font-light text-white">SVG</span>
+                      </button>
+                    </div>
+                  </div>
 
                   <details className="border-t border-white/10 pt-6">
                     <summary className="text-sm font-light text-white/80 cursor-pointer select-none flex items-center justify-between">
@@ -441,66 +532,6 @@ export default function AssetDetailPage() {
                       )}
                     </div>
                   </details>
-
-                  {svgMarkup && !svgFailed && (
-                    <div className="mt-8">
-                      <div className="text-[11px] font-light tracking-wider text-white/50 uppercase mb-3">COLOR</div>
-                      <div className="flex gap-3">
-                        {COLOR_PRESETS.map((p) => (
-                          <button
-                            key={p.id}
-                            onClick={() => setSelectedPresetId(p.id)}
-                            aria-label={`Color preset ${p.id}`}
-                            className="w-12 h-12 border transition-colors"
-                            style={{
-                              borderRadius: 0,
-                              background: p.id === 'default'
-                                ? 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.08) 100%)'
-                                : `linear-gradient(135deg, ${(p as any).primary} 0%, ${(p as any).primary} 50%, ${(p as any).secondary} 50%, ${(p as any).secondary} 100%)`,
-                              borderColor: selectedPresetId === p.id ? 'rgba(255, 255, 255, 0.6)' : 'rgba(255, 255, 255, 0.15)',
-                            }}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="mt-8">
-                    <button
-                      onClick={() => setCompareMode((v) => !v)}
-                      className="text-sm font-light text-white/80 hover:text-white transition-colors"
-                    >
-                      {compareMode ? 'Hide compare' : 'Compare tracing'}
-                    </button>
-                  </div>
-
-                  <div className="mt-10">
-                    <div className="relative inline-block" ref={downloadMenuRef}>
-                      <button
-                        onClick={handleDownloadClick}
-                        ref={downloadButtonRef}
-                        className="w-12 h-12 bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all flex items-center justify-center"
-                        style={{ borderRadius: 0 }}
-                        aria-label="Download"
-                      >
-                        <IconDownload size={18} strokeWidth={1.5} className="text-white" />
-                      </button>
-
-                      {showDownloadMenu && (
-                        <div
-                          className="absolute right-0 mt-2 min-w-[140px] bg-[#2a2618] border border-white/15 shadow-lg"
-                          style={{ borderRadius: 0 }}
-                        >
-                          <button
-                            onClick={() => handleDownloadFormat('png')}
-                            className="w-full px-4 py-3 text-left text-sm font-light text-white/90 hover:bg-white/10 transition-colors"
-                          >
-                            PNG
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
                 </>
               )}
             </div>
