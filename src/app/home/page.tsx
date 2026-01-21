@@ -1,10 +1,11 @@
 'use client'
 
 import { motion, useAnimationControls } from 'framer-motion'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Alegreya } from 'next/font/google'
 import { useAuth } from '@/hooks/useAuth'
+import { mockCollections } from '@/lib/mockData'
 
 const alegreya = Alegreya({
   subsets: ['latin'],
@@ -16,6 +17,10 @@ export default function HeroPage() {
   const router = useRouter()
   const { user, loading } = useAuth()
   const borderControls = useAnimationControls()
+  const [carouselPaused, setCarouselPaused] = useState(false)
+  const [activeCollectionId, setActiveCollectionId] = useState(mockCollections[0]?.id || '')
+  
+  const activeCollection = mockCollections.find(c => c.id === activeCollectionId)
 
   useEffect(() => {
     if (!loading && user) {
@@ -93,34 +98,189 @@ export default function HeroPage() {
         }}
       >
         <div className="max-w-7xl mx-auto px-6 py-24">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div className="max-w-xl mx-auto text-left">
+            <h2
+              className={`text-4xl font-normal font-alegreya tracking-wide ${alegreya.className}`}
+              style={{ color: '#2a2618' }}
+            >
+              What is Fauna?
+            </h2>
+            <p
+              className="text-lg leading-relaxed mt-6 font-light"
+              style={{ color: '#2a2618' }}
+            >
+              Fauna is a curated illustration system for software products.
+              <br />
+              <br />
+              The goal is simple: make illustrations predictable to use, easy to integrate, and consistent as a product evolves.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section
+        className="w-full"
+        style={{
+          backgroundColor: '#f3e8d2',
+          backgroundImage:
+            'linear-gradient(rgba(255,255,255,0.10), rgba(255,255,255,0.10)), url(/paper-grain.svg)',
+          backgroundRepeat: 'repeat, repeat',
+          backgroundSize: 'auto, 512px 512px',
+          backgroundBlendMode: 'normal, soft-light',
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-6 py-24">
+          <h2
+            className={`text-5xl font-normal font-alegreya tracking-wide text-center mb-16 leading-snug ${alegreya.className}`}
+            style={{ color: '#2a2618' }}
+          >
+            A better way to build tasteful apps
+            <br />
+            for developers, agents and founders
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <h2
-                className={`text-4xl font-normal font-alegreya tracking-wide ${alegreya.className}`}
+              <div className="aspect-square bg-black/10 border border-black/10" />
+              <h3
+                className="text-2xl font-bold mt-4"
+                style={{ color: '#2a2618', fontFamily: 'Helvetica, Arial, sans-serif' }}
+              >
+                Curated collections
+              </h3>
+              <p
+                className="text-lg leading-relaxed mt-2 font-light"
                 style={{ color: '#2a2618' }}
               >
-                What is Fauna?
-              </h2>
-              <p
-                className="text-base leading-relaxed mt-6"
-                style={{ color: 'rgba(42, 38, 24, 0.78)' }}
-              >
-                Fauna is a curated illustration system for software products.
-                <br />
-                <br />
-                The goal is simple: make illustrations predictable to use, easy to integrate, and consistent as a product evolves.
+                Find high quality illustrations faster thanks to our curated collections.
               </p>
             </div>
             <div>
-              <div
-                role="img"
-                aria-label="Placeholder image"
-                className="w-full h-80 md:h-96 bg-black/10 border border-black/10"
-              />
+              <div className="aspect-square bg-black/10 border border-black/10" />
+              <h3
+                className="text-2xl font-bold mt-4"
+                style={{ color: '#2a2618', fontFamily: 'Helvetica, Arial, sans-serif' }}
+              >
+                Expressive imageries
+              </h3>
+              <p
+                className="text-lg leading-relaxed mt-2 font-light"
+                style={{ color: '#2a2618' }}
+              >
+                Illuminate ideas with concrete yet open-ended imagery.
+              </p>
+            </div>
+            <div>
+              <div className="aspect-square bg-black/10 border border-black/10" />
+              <h3
+                className="text-2xl font-bold mt-4"
+                style={{ color: '#2a2618', fontFamily: 'Helvetica, Arial, sans-serif' }}
+              >
+                Systematic visuals
+              </h3>
+              <p
+                className="text-lg leading-relaxed mt-2 font-light"
+                style={{ color: '#2a2618' }}
+              >
+                Maintain consistency across platforms by ensuring all assets follow the same visual rules.
+              </p>
             </div>
           </div>
         </div>
       </section>
+      <section
+        className="w-full overflow-hidden"
+        style={{
+          backgroundColor: '#f3e8d2',
+          backgroundImage:
+            'linear-gradient(rgba(255,255,255,0.10), rgba(255,255,255,0.10)), url(/paper-grain.svg)',
+          backgroundRepeat: 'repeat, repeat',
+          backgroundSize: 'auto, 512px 512px',
+          backgroundBlendMode: 'normal, soft-light',
+        }}
+      >
+        <div className="py-24">
+          <div className="max-w-7xl mx-auto px-6 mb-8">
+            <div className="flex gap-6">
+              {mockCollections.map((collection) => (
+                <button
+                  key={collection.id}
+                  onClick={() => setActiveCollectionId(collection.id)}
+                  className={`text-lg font-light transition-all pb-1 border-b ${
+                    activeCollectionId === collection.id
+                      ? 'text-[#2a2618] border-[#2a2618]'
+                      : 'text-[#2a2618]/40 border-transparent hover:text-[#2a2618]/70'
+                  }`}
+                  style={{ fontFamily: 'Helvetica, Arial, sans-serif' }}
+                >
+                  {collection.title}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div
+            className="min-h-64"
+            onMouseEnter={() => setCarouselPaused(true)}
+            onMouseLeave={() => setCarouselPaused(false)}
+          >
+            <div
+              className="flex gap-8"
+              style={{
+                animation: 'scroll-left 40s linear infinite',
+                animationPlayState: carouselPaused ? 'paused' : 'running',
+                width: 'max-content',
+                willChange: 'transform',
+                backfaceVisibility: 'hidden',
+                transform: 'translateZ(0)',
+              }}
+            >
+              {activeCollection?.assets.map((asset) => (
+                <div
+                  key={asset.id}
+                  className="w-64 h-64 flex-shrink-0 bg-black/10"
+                  style={{
+                    backgroundImage: `url(${asset.imageUrl})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backfaceVisibility: 'hidden',
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+        <style jsx>{`
+          @keyframes scroll-left {
+            0% {
+              transform: translateX(0);
+            }
+            100% {
+              transform: translateX(-50%);
+            }
+          }
+        `}</style>
+      </section>
+      <footer
+        className="w-full"
+        style={{
+          backgroundColor: '#2a2618',
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-6 pt-24 pb-8 flex flex-col justify-end min-h-[300px]">
+          <div className="flex justify-between items-end">
+            <h3
+              className={`text-3xl font-normal font-alegreya tracking-wide ${alegreya.className}`}
+              style={{ color: '#f3e8d2' }}
+            >
+              Fauna
+            </h3>
+            <p
+              className="text-sm"
+              style={{ color: '#f3e8d2' }}
+            >
+              © 2026 Fauna. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
     </>
   )
 }

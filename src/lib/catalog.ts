@@ -9,6 +9,15 @@ const warmPalette = {
   accent2: '#a0522d',
 }
 
+const ukiyoePalette = {
+  bg: '#f5f0e6',
+  fg: '#1a1a2e',
+  muted: '#6b5b73',
+  divider: '#d4c5b5',
+  accent: '#c41e3a',
+  accent2: '#2d4a6f',
+}
+
 const engineersManualAssets: Asset[] = [
   {
     id: 'engineers-manual-1',
@@ -68,6 +77,8 @@ const engineersManualAssets: Asset[] = [
   },
 ]
 
+const ukiyoeAssets: Asset[] = []
+
 export const collections: Collection[] = [
   {
     id: 'engineers-manual',
@@ -75,6 +86,13 @@ export const collections: Collection[] = [
     description: '',
     defaultPalette: warmPalette,
     assets: engineersManualAssets,
+  },
+  {
+    id: 'ukiyo-e',
+    title: 'Ukiyo-e',
+    description: '',
+    defaultPalette: ukiyoePalette,
+    assets: ukiyoeAssets,
   },
 ]
 
