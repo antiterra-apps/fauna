@@ -1,11 +1,16 @@
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import GoogleProvider from 'next-auth/providers/google'
 
 const handler = NextAuth({
   // Required for stable JWT encryption/signing in production.
   // Set this in Vercel env vars (Production/Preview): NEXTAUTH_SECRET
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
     CredentialsProvider({
       name: 'Email',
       credentials: {
