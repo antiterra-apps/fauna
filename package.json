@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "generate:svgs:upload": "tsx scripts/generate-and-upload-themed-svgs.ts",
-    "generate:svgs:variants:upload": "tsx scripts/generate-and-upload-variant-svgs.ts"
+    "generate:svgs:variants:upload": "tsx scripts/generate-and-upload-variant-svgs.ts",
+    "generate:normalized:images": "tsx scripts/normalize-svgs-and-generate-images.ts"
   },
   "dependencies": {
     "@tabler/icons-react": "^3.36.1",
