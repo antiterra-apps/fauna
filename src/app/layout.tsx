@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Fraunces, Cabin, Libre_Baskerville } from 'next/font/google'
+import { Fraunces, Cabin, Libre_Baskerville, Alegreya } from 'next/font/google'
 import './globals.css'
 import { PaletteProvider } from '@/components/PaletteProvider'
 import { AuthProvider } from '@/components/AuthProvider'
@@ -24,6 +24,13 @@ const libreBaskerville = Libre_Baskerville({
   display: 'swap',
 })
 
+const alegreya = Alegreya({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-alegreya',
+  display: 'swap',
+})
+
 export const metadata: Metadata = {
   title: 'Fauna',
   description: 'Premium fauna assets and illustrations',
@@ -35,7 +42,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${cabin.variable} ${libreBaskerville.variable}`}>
+    <html lang="en" className={`${fraunces.variable} ${cabin.variable} ${libreBaskerville.variable} ${alegreya.variable}`}>
       <body className="font-sans">
         <AuthProvider>
           <PaletteProvider>

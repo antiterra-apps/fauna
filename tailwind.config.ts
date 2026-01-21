@@ -8,8 +8,9 @@ const config: Config = {
   ],
   theme: {
     fontFamily: {
-      serif: ['var(--font-fraunces)', 'serif'],
-      'libre-baskerville': ['var(--font-libre-baskerville)', 'serif'],
+      serif: ['var(--font-fraunces, serif)'],
+      'libre-baskerville': ['var(--font-libre-baskerville, serif)'],
+      alegreya: ['var(--font-alegreya, serif)'],
       sans: ['Helvetica', 'Arial', 'sans-serif'],
     },
     extend: {},

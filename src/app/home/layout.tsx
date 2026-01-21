@@ -36,13 +36,13 @@ export default function HeroLayout({
 
   return (
     <div
-      className="fixed inset-0 overflow-hidden" 
+      className="min-h-screen w-full overflow-x-hidden" 
       style={{ 
         backgroundColor: '#2a2618',
       }}
     >
       <motion.div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="fixed inset-0 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: 'url(/hero-bg.jpg)',
           backgroundPosition: `calc(50% + ${offsetX}px) calc(50% + ${offsetY}px)`,
@@ -51,10 +51,12 @@ export default function HeroLayout({
         animate={{ filter: 'blur(0px) saturate(0.85)' }}
         transition={{ duration: 1.2, delay: 0.3, ease: 'easeOut' }}
       />
-      <div className="absolute inset-0" style={{ 
+      <div className="fixed inset-0" style={{ 
         background: 'radial-gradient(ellipse 60% 60% at center, transparent 0%, transparent 30%, rgba(0, 0, 0, 0.8) 100%)'
       }} />
-      {children}
+      <div className="relative">
+        {children}
+      </div>
     </div>
   )
 }
