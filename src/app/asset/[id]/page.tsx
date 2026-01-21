@@ -156,7 +156,17 @@ export default function AssetDetailPage() {
   const svgCacheBust = 'v=7'
   const withSvgBust = (url?: string) => url ? `${url}${url.includes('?') ? '&' : '?'}${svgCacheBust}` : undefined
 
-  const [compareMode, setCompareMode] = useState(false)
+  // Generate normalized PNG URL if not in metadata
+  const normalizedPngUrl = asset.metadata?.normalizedPngUrl || (() => {
+    if (currentSvgUrl) {
+      // Extract base URL (everything before /assets/)
+      const baseUrl = currentSvgUrl.split('/assets/')[0]
+      // Construct normalized PNG path
+      return `${baseUrl}/assets/normalized/${asset.id}-1024.png`
+    }
+    return undefined
+  })()
+
   const [activeVariant, setActiveVariant] = useState<VariantId>(() => (potraceSvgUrl ? 'potrace' : currentSvgUrl ? 'current' : 'png'))
 
   const activeSvgUrl =
@@ -386,61 +396,6 @@ export default function AssetDetailPage() {
                   />
                 )}
               </div>
-
-              <div className="mt-6">
-                <button
-                  onClick={() => setCompareMode((v) => !v)}
-                  className="text-sm font-light text-white/80 hover:text-white transition-colors"
-                >
-                  {compareMode ? 'Hide compare' : 'Compare tracing'}
-                </button>
-              </div>
-
-              {compareMode && (
-                <div className="grid grid-cols-2 gap-3 mt-4">
-                  {([
-                    { id: 'png' as const, label: 'Original', url: asset.imageUrl, isSvg: false },
-                    { id: 'current' as const, label: 'Current', url: withSvgBust(currentSvgUrl), isSvg: true },
-                    { id: 'potrace' as const, label: 'Potrace', url: withSvgBust(potraceSvgUrl), isSvg: true },
-                    { id: 'centerline' as const, label: 'Centerline', url: withSvgBust(centerlineSvgUrl), isSvg: true },
-                  ]).map((v) => (
-                    <button
-                      key={v.id}
-                      onClick={() => setActiveVariant(v.id)}
-                      className="text-left"
-                      aria-label={`Select ${v.label}`}
-                    >
-                      <div
-                        className="relative w-full aspect-square overflow-hidden border"
-                        style={{
-                          borderRadius: 0,
-                          borderColor: activeVariant === v.id ? 'rgba(255, 255, 255, 0.6)' : 'rgba(255, 255, 255, 0.15)',
-                          backgroundColor: v.isSvg ? '#ffffff' : 'rgba(255, 255, 255, 0.04)',
-                        }}
-                      >
-                        {v.url ? (
-                          v.isSvg ? (
-                            <SvgTile
-                              url={v.url}
-                              variantId={v.id as 'current' | 'potrace' | 'centerline'}
-                              stripThemeStyle={false}
-                              primary={(selectedPreset as any).primary}
-                              secondary={(selectedPreset as any).secondary}
-                            />
-                          ) : (
-                            <img
-                              src={v.url}
-                              alt=""
-                              className="absolute inset-0 w-full h-full object-cover"
-                            />
-                          )
-                        ) : null}
-                      </div>
-                      <div className="mt-2 text-[11px] font-light tracking-wider text-white/60 uppercase">{v.label}</div>
-                    </button>
-                  ))}
-                </div>
-              )}
             </div>
 
             <div className="text-white">
@@ -534,6 +489,97 @@ export default function AssetDetailPage() {
                   </details>
                 </>
               )}
+            </div>
+          </div>
+
+          <div className="mt-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <div
+                  className="relative w-full overflow-hidden"
+                  style={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                    aspectRatio: '1',
+                  }}
+                >
+                  <img
+                    src={asset.imageUrl}
+                    alt="Original"
+                    className="absolute inset-0 w-full h-full object-cover"
+                    onError={(e) => {
+                      console.error('Failed to load original PNG:', asset.imageUrl)
+                    }}
+                  />
+                </div>
+                <div className="mt-3 text-sm font-light tracking-wider text-white/60 uppercase text-center">
+                  Original PNG
+                </div>
+              </div>
+
+              <div>
+                <div
+                  className="relative w-full overflow-hidden"
+                  style={{
+                    backgroundColor: '#f3efe7',
+                    backgroundImage:
+                      'url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27180%27%20height=%27180%27%3E%3Cfilter%20id=%27n%27%3E%3CfeTurbulence%20type=%27fractalNoise%27%20baseFrequency=%27.9%27%20numOctaves=%273%27%20stitchTiles=%27stitch%27/%3E%3CfeColorMatrix%20type=%27matrix%27%20values=%270%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20.10%200%27/%3E%3C/filter%3E%3Crect%20width=%27180%27%20height=%27180%27%20filter=%27url(%23n)%27/%3E%3C/svg%3E")',
+                    backgroundRepeat: 'repeat',
+                    backgroundSize: '180px 180px',
+                    aspectRatio: '1',
+                  }}
+                >
+                  {activeSvgUrl ? (
+                    <SvgTile
+                      url={activeSvgUrl}
+                      variantId={activeVariant === 'centerline' ? 'centerline' : activeVariant === 'potrace' ? 'potrace' : 'current'}
+                      stripThemeStyle={false}
+                      primary={(selectedPreset as any).primary}
+                      secondary={(selectedPreset as any).secondary}
+                    />
+                  ) : null}
+                </div>
+                <div className="mt-3 text-sm font-light tracking-wider text-white/60 uppercase text-center">
+                  SVG Tracing
+                </div>
+              </div>
+
+              <div>
+                <div
+                  className="relative w-full overflow-hidden"
+                  style={{
+                    backgroundColor: '#ffffff',
+                    aspectRatio: '1',
+                  }}
+                >
+                  {normalizedPngUrl ? (
+                    <img
+                      src={normalizedPngUrl}
+                      alt="Normalized"
+                      className="w-full h-full"
+                      style={{ objectFit: 'fill', display: 'block' }}
+                      onError={(e) => {
+                        console.error('Failed to load normalized PNG:', normalizedPngUrl)
+                        const target = e.target as HTMLImageElement
+                        target.style.display = 'none'
+                        const parent = target.parentElement
+                        if (parent) {
+                          const fallback = document.createElement('div')
+                          fallback.className = 'absolute inset-0 flex items-center justify-center text-white/40 text-xs'
+                          fallback.textContent = 'Not available'
+                          parent.appendChild(fallback)
+                        }
+                      }}
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center text-white/40 text-xs">
+                      Not available
+                    </div>
+                  )}
+                </div>
+                <div className="mt-3 text-sm font-light tracking-wider text-white/60 uppercase text-center">
+                  Normalized PNG
+                </div>
+              </div>
             </div>
           </div>
         </div>

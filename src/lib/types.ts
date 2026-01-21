@@ -28,6 +28,7 @@ export type Asset = {
     svgUrl?: string;
     svgPotraceUrl?: string;
     svgCenterlineUrl?: string;
+    normalizedPngUrl?: string;
     tags?: string[];
     createdAt?: string;
     source?: string;
