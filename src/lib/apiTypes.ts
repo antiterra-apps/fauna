@@ -22,7 +22,7 @@ export type CollectionsResponse = {
   collections: Collection[]
 }
 
-export type CollectionResponse = Collection & {
+export type CollectionResponse = Omit<Collection, 'assets'> & {
   assets?: Array<{
     id: string
     title: string

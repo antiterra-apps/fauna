@@ -232,7 +232,7 @@ export default function HeroPage() {
                 transform: 'translateZ(0)',
               }}
             >
-              {activeCollection?.assets.map((asset) => (
+              {activeCollection?.assets?.map((asset) => (
                 <div
                   key={asset.id}
                   className="w-64 h-64 flex-shrink-0 bg-black/10"

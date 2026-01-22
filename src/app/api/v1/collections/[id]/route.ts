@@ -42,6 +42,7 @@ export async function GET(
     defaultPalette: collection.defaultPalette,
     styleDescriptors: collection.styleDescriptors,
     availableTags: collection.availableTags,
+    assets: undefined,
   }
 
   if (includeAssets) {

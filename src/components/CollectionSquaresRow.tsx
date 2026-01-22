@@ -15,7 +15,7 @@ interface CollectionSquaresRowProps {
 }
 
 export function CollectionSquaresRow({ collection, titleOverride, isSmallTitle }: CollectionSquaresRowProps) {
-  const featured = useMemo(() => collection.assets.slice(0, FEATURED_COUNT), [collection.assets])
+  const featured = useMemo(() => collection.assets?.slice(0, FEATURED_COUNT) || [], [collection.assets])
   const title = titleOverride ?? collection.title
 
   return (

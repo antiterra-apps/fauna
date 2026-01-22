@@ -14,8 +14,8 @@ interface CollectionRowProps {
 export function CollectionRow({ collection }: CollectionRowProps) {
   const [isHovered, setIsHovered] = useState(false)
 
-  const previewAssets = collection.assets.filter(a => a.isFree)
-  const totalCount = collection.assets.length
+  const previewAssets = collection.assets?.filter(a => a.isFree) || []
+  const totalCount = collection.assets?.length || 0
 
   const handleMouseEnter = () => {
     setIsHovered(true)

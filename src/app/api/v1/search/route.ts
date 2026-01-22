@@ -169,9 +169,9 @@ export async function GET(request: NextRequest) {
 
   // Generate next cursor if there are more items
   if (paginated.length > limit) {
-    const last = limited[limited.length - 1]
+    const lastResult = response.results[response.results.length - 1]
     response.nextCursor = Buffer.from(
-      JSON.stringify({ s: last.relevanceScore, id: last.id })
+      JSON.stringify({ s: lastResult.relevanceScore, id: lastResult.id })
     ).toString('base64')
   } else {
     response.nextCursor = null
