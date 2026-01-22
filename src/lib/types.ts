@@ -1,19 +1,28 @@
 export type Palette = {
-  bg: string;
+  bg?: string;
   fg: string;
-  muted: string;
-  divider: string;
-  accent: string;
-  accent2: string;
+}
+
+export type StyleContract = {
+  type: 'duotone' | 'multicolor';
+  slots: string[];
+  allowedFormats: ('webp' | 'png' | 'svg')[];
+  allowedSizes: number[];
+  defaultFormat: 'webp' | 'png' | 'svg';
+  defaultSize: number;
 }
 
 export type Collection = {
   id: string;
   title: string;
   description: string;
+  assetCount: number;
+  styleContract: StyleContract;
   defaultPalette: Palette;
+  styleDescriptors: string[];
+  availableTags: string[];
   tag?: 'Popular' | 'New';
-  assets: Asset[];
+  assets?: Asset[];
 }
 
 export type Asset = {
@@ -22,14 +31,14 @@ export type Asset = {
   imageUrl: string;
   isFree: boolean;
   collectionId: string;
-  conceptType?: string;
+  description: string;
+  tags: string[];
+  relatedAssets: string[];
   metadata?: {
     blobUrl?: string;
     svgUrl?: string;
     svgPotraceUrl?: string;
-    svgCenterlineUrl?: string;
     normalizedPngUrl?: string;
-    tags?: string[];
     createdAt?: string;
     source?: string;
   };
@@ -39,4 +48,12 @@ export type User = {
   id: string;
   email: string;
   isPro: boolean;
+  apiKey?: string;
+}
+
+export type UserPalette = {
+  id: string;
+  name: string;
+  colors: Palette;
+  createdAt: string;
 }

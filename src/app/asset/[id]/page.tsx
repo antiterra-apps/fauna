@@ -63,7 +63,7 @@ function SvgTile({
   secondary,
 }: {
   url: string
-  variantId: 'current' | 'potrace' | 'centerline'
+  variantId: 'current' | 'potrace'
   stripThemeStyle: boolean
   primary?: string
   secondary?: string
@@ -83,8 +83,8 @@ function SvgTile({
       })
       .then((text) => {
         if (cancelled) return
-        const aspect = variantId === 'centerline' ? 'meet' : 'slice'
-        const normalized = normalizeSvgMarkup(text, aspect, variantId !== 'centerline')
+        const aspect = 'slice'
+        const normalized = normalizeSvgMarkup(text, aspect, true)
         const toRender = stripThemeStyle
           ? normalized.replace(/<style\b[^>]*>[\s\S]*?--svg-(primary|secondary)[\s\S]*?<\/style>/gi, '')
           : normalized
@@ -148,11 +148,10 @@ export default function AssetDetailPage() {
     .replace(new RegExp(`^${collection?.title}\\s+`, 'i'), '')
     .trim()
 
-  type VariantId = 'png' | 'current' | 'potrace' | 'centerline'
+  type VariantId = 'png' | 'current' | 'potrace'
 
   const currentSvgUrl = asset.metadata?.svgUrl
   const potraceSvgUrl = asset.metadata?.svgPotraceUrl
-  const centerlineSvgUrl = asset.metadata?.svgCenterlineUrl
   const svgCacheBust = 'v=7'
   const withSvgBust = (url?: string) => url ? `${url}${url.includes('?') ? '&' : '?'}${svgCacheBust}` : undefined
 
@@ -174,9 +173,7 @@ export default function AssetDetailPage() {
       ? withSvgBust(currentSvgUrl)
       : activeVariant === 'potrace'
         ? withSvgBust(potraceSvgUrl)
-        : activeVariant === 'centerline'
-          ? withSvgBust(centerlineSvgUrl)
-          : undefined
+        : undefined
 
   const [imageLoaded, setImageLoaded] = useState(false)
   const [svgMarkup, setSvgMarkup] = useState<string | null>(null)
@@ -187,7 +184,7 @@ export default function AssetDetailPage() {
 
   const selectedPreset = COLOR_PRESETS.find(p => p.id === selectedPresetId) ?? COLOR_PRESETS[0]
   const svgMarkupToRender = svgMarkup
-  const svgDownloadUrl = activeSvgUrl ?? withSvgBust(potraceSvgUrl || currentSvgUrl || centerlineSvgUrl)
+  const svgDownloadUrl = activeSvgUrl ?? withSvgBust(potraceSvgUrl || currentSvgUrl)
 
   useEffect(() => {
     let cancelled = false
@@ -203,8 +200,8 @@ export default function AssetDetailPage() {
       })
       .then((text) => {
         if (cancelled) return
-        const aspect = activeVariant === 'centerline' ? 'meet' : 'slice'
-        const normalized = normalizeSvgMarkup(text, aspect, activeVariant !== 'centerline')
+        const aspect = 'slice'
+        const normalized = normalizeSvgMarkup(text, aspect, true)
         setSvgMarkup(normalized)
         setImageLoaded(true)
       })
@@ -479,10 +476,16 @@ export default function AssetDetailPage() {
                         <div className="text-[11px] font-light tracking-wider text-white/50 uppercase mb-2">Availability</div>
                         <div className="text-sm font-light">{asset.isFree ? 'Free' : 'Pro'}</div>
                       </div>
-                      {asset.conceptType && (
+                      {asset.description && (
                         <div>
-                          <div className="text-[11px] font-light tracking-wider text-white/50 uppercase mb-2">Concept type</div>
-                          <div className="text-sm font-light">{asset.conceptType}</div>
+                          <div className="text-[11px] font-light tracking-wider text-white/50 uppercase mb-2">Description</div>
+                          <div className="text-sm font-light">{asset.description}</div>
+                        </div>
+                      )}
+                      {asset.tags && asset.tags.length > 0 && (
+                        <div>
+                          <div className="text-[11px] font-light tracking-wider text-white/50 uppercase mb-2">Tags</div>
+                          <div className="text-sm font-light">{asset.tags.join(', ')}</div>
                         </div>
                       )}
                     </div>
@@ -531,7 +534,7 @@ export default function AssetDetailPage() {
                   {activeSvgUrl ? (
                     <SvgTile
                       url={activeSvgUrl}
-                      variantId={activeVariant === 'centerline' ? 'centerline' : activeVariant === 'potrace' ? 'potrace' : 'current'}
+                      variantId={activeVariant === 'potrace' ? 'potrace' : 'current'}
                       stripThemeStyle={false}
                       primary={(selectedPreset as any).primary}
                       secondary={(selectedPreset as any).secondary}
