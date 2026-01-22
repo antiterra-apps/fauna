@@ -1,0 +1,1703 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Fauna API",
+    "version": "1.0.0",
+    "description": "REST API for coding agents to discover and use Fauna illustrations in a visually coherent way. Provides access to curated illustration collections with customizable color palettes."
+  },
+  "servers": [
+    {
+      "url": "https://fauna.dev",
+      "description": "Production"
+    }
+  ],
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "paths": {
+    "/api/v1/meta": {
+      "get": {
+        "summary": "API Discovery",
+        "description": "Returns machine-readable info about how the API works. Agents call this first to learn auth method and find the spec. No authentication required.",
+        "operationId": "getMeta",
+        "security": [],
+        "tags": ["Discovery"],
+        "responses": {
+          "200": {
+            "description": "API metadata",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Meta"
+                },
+                "example": {
+                  "auth": {
+                    "type": "apiKey",
+                    "header": "X-Fauna-API-Key",
+                    "getKeyUrl": "https://fauna.dev/account"
+                  },
+                  "openapi": "https://fauna.dev/openapi.json",
+                  "version": "v1"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/collections": {
+      "get": {
+        "summary": "List Collections",
+        "description": "List all collections with their style contracts, default palettes, and available tags.",
+        "operationId": "listCollections",
+        "tags": ["Collections"],
+        "responses": {
+          "200": {
+            "description": "List of collections",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["collections"],
+                  "properties": {
+                    "collections": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Collection"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          }
+        }
+      }
+    },
+    "/api/v1/collections/{id}": {
+      "get": {
+        "summary": "Get Collection",
+        "description": "Get a single collection by ID. Optionally include paginated assets.",
+        "operationId": "getCollection",
+        "tags": ["Collections"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Collection ID",
+            "schema": {
+              "type": "string"
+            },
+            "example": "engineers-manual"
+          },
+          {
+            "name": "includeAssets",
+            "in": "query",
+            "description": "Include paginated assets in response",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/cursor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Collection details",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CollectionWithAssets"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidCursor"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "description": "Collection not found",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "COLLECTION_NOT_FOUND",
+                    "message": "Collection 'unknown' not found",
+                    "meta": {
+                      "id": "unknown"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          }
+        }
+      }
+    },
+    "/api/v1/assets/{id}": {
+      "get": {
+        "summary": "Get Asset",
+        "description": "Get asset metadata. To get the rendered image, use the /render endpoint.",
+        "operationId": "getAsset",
+        "tags": ["Assets"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Asset ID",
+            "schema": {
+              "type": "string"
+            },
+            "example": "engineers-manual-1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Asset metadata",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Asset"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "description": "Asset not found",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "ASSET_NOT_FOUND",
+                    "message": "Asset 'unknown' not found",
+                    "meta": {
+                      "id": "unknown"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          }
+        }
+      }
+    },
+    "/api/v1/assets/{id}/render": {
+      "get": {
+        "summary": "Render Asset",
+        "description": "Get a CDN URL for the rendered asset with custom colors. Use either paletteId OR inline colors (fg/bg), not both. All outputs are square.",
+        "operationId": "renderAsset",
+        "tags": ["Assets"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Asset ID",
+            "schema": {
+              "type": "string"
+            },
+            "example": "engineers-manual-1"
+          },
+          {
+            "name": "paletteId",
+            "in": "query",
+            "description": "Saved palette ID (mutually exclusive with fg/bg)",
+            "schema": {
+              "type": "string"
+            },
+            "example": "my-brand"
+          },
+          {
+            "name": "fg",
+            "in": "query",
+            "description": "Foreground color, 6-digit hex without # (mutually exclusive with paletteId)",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{6}$"
+            },
+            "example": "1a1a1a"
+          },
+          {
+            "name": "bg",
+            "in": "query",
+            "description": "Background color, 6-digit hex without # (optional, omit for transparent)",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{6}$"
+            },
+            "example": "ffffff"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "description": "Output format. Must be in collection's styleContract.allowedFormats. Default: collection's defaultFormat.",
+            "schema": {
+              "type": "string",
+              "enum": ["webp", "png", "svg"]
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Output size in pixels (square). Must be in collection's styleContract.allowedSizes. Default: collection's defaultSize.",
+            "schema": {
+              "type": "integer",
+              "enum": [512, 1024, 2048]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Render result with CDN URL",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RenderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "COLOR_CONFLICT": {
+                    "summary": "Both paletteId and inline colors provided",
+                    "value": {
+                      "error": {
+                        "code": "COLOR_CONFLICT",
+                        "message": "Cannot use both paletteId and inline colors (fg/bg). Choose one."
+                      }
+                    }
+                  },
+                  "MISSING_COLOR": {
+                    "summary": "No color source provided",
+                    "value": {
+                      "error": {
+                        "code": "MISSING_COLOR",
+                        "message": "Render requires paletteId or fg color"
+                      }
+                    }
+                  },
+                  "INVALID_COLOR": {
+                    "summary": "Invalid hex color",
+                    "value": {
+                      "error": {
+                        "code": "INVALID_COLOR",
+                        "message": "Color must be 6-digit hex (e.g., 1a1a1a)",
+                        "meta": {
+                          "field": "fg",
+                          "value": "fff"
+                        }
+                      }
+                    }
+                  },
+                  "INVALID_FORMAT": {
+                    "summary": "Invalid format",
+                    "value": {
+                      "error": {
+                        "code": "INVALID_FORMAT",
+                        "message": "Format 'gif' not allowed for this collection",
+                        "meta": {
+                          "value": "gif",
+                          "allowed": ["webp", "png", "svg"]
+                        }
+                      }
+                    }
+                  },
+                  "INVALID_SIZE": {
+                    "summary": "Invalid size",
+                    "value": {
+                      "error": {
+                        "code": "INVALID_SIZE",
+                        "message": "Size 256 not allowed for this collection",
+                        "meta": {
+                          "value": 256,
+                          "allowed": [512, 1024, 2048]
+                        }
+                      }
+                    }
+                  },
+                  "PALETTE_INCOMPATIBLE": {
+                    "summary": "Palette missing required slots",
+                    "value": {
+                      "error": {
+                        "code": "PALETTE_INCOMPATIBLE",
+                        "message": "Palette 'my-palette' is missing required color slots for this collection",
+                        "meta": {
+                          "paletteId": "my-palette",
+                          "collectionId": "engineers-manual",
+                          "requiredSlots": ["fg"],
+                          "providedSlots": []
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "description": "Resource not found. Check error.code to disambiguate: ASSET_NOT_FOUND or PALETTE_NOT_FOUND.",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "ASSET_NOT_FOUND": {
+                    "summary": "Asset not found",
+                    "value": {
+                      "error": {
+                        "code": "ASSET_NOT_FOUND",
+                        "message": "Asset 'unknown' not found",
+                        "meta": {
+                          "id": "unknown"
+                        }
+                      }
+                    }
+                  },
+                  "PALETTE_NOT_FOUND": {
+                    "summary": "Palette not found",
+                    "value": {
+                      "error": {
+                        "code": "PALETTE_NOT_FOUND",
+                        "message": "Palette 'unknown' not found",
+                        "meta": {
+                          "id": "unknown"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          }
+        }
+      }
+    },
+    "/api/v1/palettes": {
+      "get": {
+        "summary": "List Palettes",
+        "description": "List all custom palettes for the authenticated user/workspace.",
+        "operationId": "listPalettes",
+        "tags": ["Palettes"],
+        "responses": {
+          "200": {
+            "description": "List of palettes",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["palettes"],
+                  "properties": {
+                    "palettes": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Palette"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Palette",
+        "description": "Create a custom palette. Palette IDs must be unique per workspace and follow the slug format (lowercase a-z, 0-9, hyphens, starting with letter, 3-48 chars).",
+        "operationId": "createPalette",
+        "tags": ["Palettes"],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "description": "Optional idempotency key to prevent duplicate creation on retries. Keys expire after 24 hours.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaletteCreate"
+              },
+              "example": {
+                "id": "my-brand",
+                "name": "My Brand",
+                "colors": {
+                  "fg": "#1a1a1a",
+                  "bg": "#ffffff"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Palette created",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Palette"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "INVALID_PALETTE_ID": {
+                    "summary": "Invalid palette ID format",
+                    "value": {
+                      "error": {
+                        "code": "INVALID_PALETTE_ID",
+                        "message": "Palette ID must be lowercase letters, numbers, hyphens, start with letter, 3-48 chars",
+                        "meta": {
+                          "id": "My Brand!",
+                          "reason": "contains uppercase and special characters"
+                        }
+                      }
+                    }
+                  },
+                  "INVALID_COLOR": {
+                    "summary": "Invalid color format",
+                    "value": {
+                      "error": {
+                        "code": "INVALID_COLOR",
+                        "message": "Color must be 6-digit hex (e.g., #1a1a1a)",
+                        "meta": {
+                          "field": "colors.fg",
+                          "value": "#fff"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "description": "Conflict",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "PALETTE_EXISTS": {
+                    "summary": "Palette ID already taken",
+                    "value": {
+                      "error": {
+                        "code": "PALETTE_EXISTS",
+                        "message": "Palette 'my-brand' already exists",
+                        "meta": {
+                          "existingId": "my-brand"
+                        }
+                      }
+                    }
+                  },
+                  "IDEMPOTENCY_CONFLICT": {
+                    "summary": "Same idempotency key with different body",
+                    "value": {
+                      "error": {
+                        "code": "IDEMPOTENCY_CONFLICT",
+                        "message": "Idempotency key was used with a different request body",
+                        "meta": {
+                          "key": "create-my-brand-attempt-1"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          }
+        }
+      }
+    },
+    "/api/v1/palettes/{id}": {
+      "put": {
+        "summary": "Update Palette",
+        "description": "Full replace of a palette. All fields (except id) are required.",
+        "operationId": "updatePalette",
+        "tags": ["Palettes"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Palette ID",
+            "schema": {
+              "type": "string"
+            },
+            "example": "my-brand"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaletteUpdate"
+              },
+              "example": {
+                "name": "My Brand Updated",
+                "colors": {
+                  "fg": "#2a2a2a",
+                  "bg": "#f5f5f5"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Palette updated",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Palette"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "description": "Palette not found",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "PALETTE_NOT_FOUND",
+                    "message": "Palette 'unknown' not found",
+                    "meta": {
+                      "id": "unknown"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Palette",
+        "description": "Delete a custom palette.",
+        "operationId": "deletePalette",
+        "tags": ["Palettes"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Palette ID",
+            "schema": {
+              "type": "string"
+            },
+            "example": "my-brand"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Palette deleted",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "description": "Palette not found",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "PALETTE_NOT_FOUND",
+                    "message": "Palette 'unknown' not found",
+                    "meta": {
+                      "id": "unknown"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          }
+        }
+      }
+    },
+    "/api/v1/search": {
+      "get": {
+        "summary": "Search Assets",
+        "description": "Search for assets within a collection. Collection is required to ensure visual coherence. Uses keyset pagination for deterministic results.",
+        "operationId": "searchAssets",
+        "tags": ["Search"],
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "query",
+            "required": true,
+            "description": "Collection ID to search within (required for visual coherence)",
+            "schema": {
+              "type": "string"
+            },
+            "example": "engineers-manual"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Free text search (matches title, description, tags)",
+            "schema": {
+              "type": "string"
+            },
+            "example": "collaboration"
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "Comma-separated tag filter",
+            "schema": {
+              "type": "string"
+            },
+            "example": "teamwork,meeting"
+          },
+          {
+            "name": "tagMode",
+            "in": "query",
+            "description": "Tag matching mode",
+            "schema": {
+              "type": "string",
+              "enum": ["all", "any"],
+              "default": "all"
+            }
+          },
+          {
+            "name": "excludeTags",
+            "in": "query",
+            "description": "Comma-separated tags to exclude",
+            "schema": {
+              "type": "string"
+            },
+            "example": "people,faces"
+          },
+          {
+            "name": "minScore",
+            "in": "query",
+            "description": "Minimum relevance score (0-1)",
+            "schema": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "example": 0.7
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Results per page",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10
+            }
+          },
+          {
+            "$ref": "#/components/parameters/cursor"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort order",
+            "schema": {
+              "type": "string",
+              "enum": ["relevance"],
+              "default": "relevance"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search results",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "MISSING_COLLECTION": {
+                    "summary": "Collection parameter required",
+                    "value": {
+                      "error": {
+                        "code": "MISSING_COLLECTION",
+                        "message": "Search requires a collection parameter"
+                      }
+                    }
+                  },
+                  "INVALID_CURSOR": {
+                    "summary": "Invalid cursor",
+                    "value": {
+                      "error": {
+                        "code": "INVALID_CURSOR",
+                        "message": "Cursor is malformed or expired",
+                        "meta": {
+                          "cursor": "invalid-cursor-value"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "description": "Collection not found",
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "COLLECTION_NOT_FOUND",
+                    "message": "Collection 'unknown' not found",
+                    "meta": {
+                      "id": "unknown"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Fauna-API-Key",
+        "description": "API key for authentication. Get yours at https://fauna.dev/account"
+      }
+    },
+    "headers": {
+      "X-Request-Id": {
+        "description": "Unique request identifier for debugging",
+        "schema": {
+          "type": "string"
+        },
+        "example": "req_abc123xyz789"
+      },
+      "X-RateLimit-Limit": {
+        "description": "Maximum requests per window",
+        "schema": {
+          "type": "integer"
+        },
+        "example": 100
+      },
+      "X-RateLimit-Remaining": {
+        "description": "Remaining requests in current window",
+        "schema": {
+          "type": "integer"
+        },
+        "example": 45
+      },
+      "X-RateLimit-Reset": {
+        "description": "Unix timestamp when rate limit resets",
+        "schema": {
+          "type": "integer"
+        },
+        "example": 1704067200
+      },
+      "Retry-After": {
+        "description": "Seconds to wait before retrying (on 429)",
+        "schema": {
+          "type": "integer"
+        },
+        "example": 60
+      }
+    },
+    "parameters": {
+      "limit": {
+        "name": "limit",
+        "in": "query",
+        "description": "Items per page",
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 20
+        }
+      },
+      "cursor": {
+        "name": "cursor",
+        "in": "query",
+        "description": "Keyset pagination cursor from previous response. Cursor is opaque and endpoint-specific. Do not reuse across endpoints.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "responses": {
+      "Unauthorized": {
+        "description": "Authentication failed",
+        "headers": {
+          "X-Request-Id": {
+            "$ref": "#/components/headers/X-Request-Id"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "API_KEY_REQUIRED": {
+                "summary": "No API key provided",
+                "value": {
+                  "error": {
+                    "code": "API_KEY_REQUIRED",
+                    "message": "API key required. Get yours at https://fauna.dev/account"
+                  }
+                }
+              },
+              "API_KEY_INVALID": {
+                "summary": "API key invalid or revoked",
+                "value": {
+                  "error": {
+                    "code": "API_KEY_INVALID",
+                    "message": "API key is invalid or has been revoked"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "RateLimited": {
+        "description": "Rate limit exceeded",
+        "headers": {
+          "X-Request-Id": {
+            "$ref": "#/components/headers/X-Request-Id"
+          },
+          "X-RateLimit-Limit": {
+            "$ref": "#/components/headers/X-RateLimit-Limit"
+          },
+          "X-RateLimit-Remaining": {
+            "$ref": "#/components/headers/X-RateLimit-Remaining"
+          },
+          "X-RateLimit-Reset": {
+            "$ref": "#/components/headers/X-RateLimit-Reset"
+          },
+          "Retry-After": {
+            "$ref": "#/components/headers/Retry-After"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "error": {
+                "code": "RATE_LIMITED",
+                "message": "Rate limit exceeded. Try again in 60 seconds",
+                "meta": {
+                  "retryAfter": 60
+                }
+              }
+            }
+          }
+        }
+      },
+      "InvalidCursor": {
+        "description": "Invalid pagination cursor",
+        "headers": {
+          "X-Request-Id": {
+            "$ref": "#/components/headers/X-Request-Id"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "error": {
+                "code": "INVALID_CURSOR",
+                "message": "Cursor is malformed or expired",
+                "meta": {
+                  "cursor": "invalid-cursor-value"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Meta": {
+        "type": "object",
+        "required": ["auth", "openapi", "version"],
+        "properties": {
+          "auth": {
+            "type": "object",
+            "required": ["type", "header", "getKeyUrl"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["apiKey"]
+              },
+              "header": {
+                "type": "string",
+                "description": "Header name for API key"
+              },
+              "getKeyUrl": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL where users can get an API key"
+              }
+            }
+          },
+          "openapi": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to OpenAPI specification"
+          },
+          "version": {
+            "type": "string",
+            "description": "API version"
+          }
+        }
+      },
+      "Collection": {
+        "type": "object",
+        "required": ["id", "title", "description", "assetCount", "styleContract", "defaultPalette", "styleDescriptors", "availableTags"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique collection identifier"
+          },
+          "title": {
+            "type": "string",
+            "description": "Human-readable collection name"
+          },
+          "description": {
+            "type": "string",
+            "description": "Collection description"
+          },
+          "assetCount": {
+            "type": "integer",
+            "description": "Number of assets in collection"
+          },
+          "styleContract": {
+            "$ref": "#/components/schemas/StyleContract"
+          },
+          "defaultPalette": {
+            "$ref": "#/components/schemas/PaletteColors"
+          },
+          "styleDescriptors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Visual style keywords (e.g., minimalist, line-art)"
+          },
+          "availableTags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Aggregated tags from all assets - helps agents know what's searchable"
+          }
+        }
+      },
+      "CollectionWithAssets": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Collection"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "assets": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AssetSummary"
+                },
+                "description": "Paginated assets (only with includeAssets=true)"
+              },
+              "nextCursor": {
+                "type": "string",
+                "nullable": true,
+                "description": "Cursor for next page of assets. Null when no more pages."
+              }
+            }
+          }
+        ]
+      },
+      "StyleContract": {
+        "type": "object",
+        "required": ["type", "slots", "allowedFormats", "allowedSizes", "defaultFormat", "defaultSize"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["duotone", "multicolor"],
+            "description": "Color customization type"
+          },
+          "slots": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["fg", "bg"]
+            },
+            "description": "Required color slots (e.g., ['fg', 'bg'] for duotone)"
+          },
+          "allowedFormats": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["webp", "png", "svg"]
+            },
+            "description": "Supported output formats"
+          },
+          "allowedSizes": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "enum": [512, 1024, 2048]
+            },
+            "description": "Supported output sizes in pixels"
+          },
+          "defaultFormat": {
+            "type": "string",
+            "enum": ["webp", "png", "svg"],
+            "description": "Default format if not specified in render request"
+          },
+          "defaultSize": {
+            "type": "integer",
+            "enum": [512, 1024, 2048],
+            "description": "Default size if not specified in render request"
+          }
+        }
+      },
+      "Asset": {
+        "type": "object",
+        "required": ["id", "title", "collectionId", "description", "tags", "relatedAssets"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique asset identifier"
+          },
+          "title": {
+            "type": "string",
+            "description": "Asset title"
+          },
+          "collectionId": {
+            "type": "string",
+            "description": "Parent collection ID"
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed description of the illustration's content"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Searchable concept tags"
+          },
+          "relatedAssets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "IDs of related assets (auto-computed from same collection with similar tags)"
+          }
+        }
+      },
+      "AssetSummary": {
+        "type": "object",
+        "required": ["id", "title", "description", "tags"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Palette": {
+        "type": "object",
+        "required": ["id", "name", "colors", "createdAt"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique palette ID (slug format)"
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable palette name"
+          },
+          "colors": {
+            "$ref": "#/components/schemas/PaletteColors"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp"
+          }
+        }
+      },
+      "PaletteColors": {
+        "type": "object",
+        "required": ["fg"],
+        "additionalProperties": false,
+        "properties": {
+          "fg": {
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$",
+            "description": "Foreground color (6-digit hex with #)"
+          },
+          "bg": {
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$",
+            "description": "Background color (6-digit hex with #, omit for transparent)"
+          }
+        }
+      },
+      "PaletteCreate": {
+        "type": "object",
+        "required": ["id", "name", "colors"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{2,47}$",
+            "description": "Unique ID (lowercase a-z, 0-9, hyphens, starts with letter, 3-48 chars)"
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable name"
+          },
+          "colors": {
+            "$ref": "#/components/schemas/PaletteColors"
+          }
+        }
+      },
+      "PaletteUpdate": {
+        "type": "object",
+        "required": ["name", "colors"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Human-readable name"
+          },
+          "colors": {
+            "$ref": "#/components/schemas/PaletteColors"
+          }
+        }
+      },
+      "RenderResponse": {
+        "type": "object",
+        "required": ["renderId", "url", "params"],
+        "properties": {
+          "renderId": {
+            "type": "string",
+            "description": "Canonical identity of this exact render. Format: {asset}:p={paletteId}:{format}:{size} or {asset}:fg={hex}:bg={hex|transparent}:{format}:{size}"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "CDN URL for the rendered asset"
+          },
+          "params": {
+            "$ref": "#/components/schemas/RenderParams"
+          }
+        }
+      },
+      "RenderParams": {
+        "type": "object",
+        "required": ["assetId", "format", "size"],
+        "properties": {
+          "assetId": {
+            "type": "string"
+          },
+          "paletteId": {
+            "type": "string",
+            "description": "Palette used (if palette-based)"
+          },
+          "fg": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{6}$",
+            "description": "Foreground color as 6-digit hex (if inline colors)"
+          },
+          "bg": {
+            "type": "string",
+            "pattern": "^(transparent|[0-9a-fA-F]{6})$",
+            "description": "Background color as 6-digit hex or 'transparent' (if inline colors)"
+          },
+          "format": {
+            "type": "string",
+            "enum": ["webp", "png", "svg"]
+          },
+          "size": {
+            "type": "integer"
+          }
+        }
+      },
+      "SearchResponse": {
+        "type": "object",
+        "required": ["collection", "appliedFilters", "results"],
+        "properties": {
+          "collection": {
+            "type": "string",
+            "description": "Collection searched"
+          },
+          "appliedFilters": {
+            "$ref": "#/components/schemas/AppliedFilters"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchResult"
+            }
+          },
+          "nextCursor": {
+            "type": "string",
+            "nullable": true,
+            "description": "Cursor for next page (keyset pagination). Null when no more pages."
+          }
+        }
+      },
+      "AppliedFilters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "q": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tagMode": {
+            "type": "string",
+            "enum": ["all", "any"]
+          },
+          "excludeTags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "minScore": {
+            "type": "number"
+          }
+        }
+      },
+      "SearchResult": {
+        "type": "object",
+        "required": ["id", "title", "description", "relevanceScore", "tags", "match"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "relevanceScore": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Relevance score (0-1)"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "match": {
+            "$ref": "#/components/schemas/MatchInfo"
+          }
+        }
+      },
+      "MatchInfo": {
+        "type": "object",
+        "description": "Why this result matched",
+        "properties": {
+          "title": {
+            "type": "boolean",
+            "description": "Query matched title"
+          },
+          "description": {
+            "type": "boolean",
+            "description": "Query matched description"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Tags that matched the query or filters"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": ["error"],
+        "properties": {
+          "error": {
+            "type": "object",
+            "required": ["code", "message"],
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "Machine-readable error code"
+              },
+              "message": {
+                "type": "string",
+                "description": "Human-readable error message"
+              },
+              "meta": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "Additional structured data for recovery"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Discovery",
+      "description": "API discovery and metadata"
+    },
+    {
+      "name": "Collections",
+      "description": "Browse illustration collections"
+    },
+    {
+      "name": "Assets",
+      "description": "Access individual assets and render with custom colors"
+    },
+    {
+      "name": "Palettes",
+      "description": "Manage custom color palettes"
+    },
+    {
+      "name": "Search",
+      "description": "Search for assets by concept, tags, or text"
+    }
+  ]
+}
