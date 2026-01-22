@@ -102,7 +102,7 @@ async function calculateContentBounds(svgBuffer: Buffer): Promise<Bounds> {
   }
 }
 
-function createNormalizedSvg(originalSvg: string, bounds: Bounds, targetPixelSize: number, contentPercent: number = 0.9): string {
+function createNormalizedSvg(originalSvg: string, bounds: Bounds, targetPixelSize: number, contentPercent: number = 0.8): string {
   const contentMaxDim = Math.max(bounds.width, bounds.height)
   const viewBoxSize = Math.round((contentMaxDim / contentPercent) * 100) / 100
   
@@ -163,20 +163,25 @@ async function generateNormalizedImages(
   size: number,
   token: string,
   collectionId?: string
-): Promise<{ pngUrl: string; webpUrl: string }> {
+): Promise<{ normalizedSvgUrl: string; pngUrl: string; webpUrl: string }> {
   const svgBuffer = await fetchBuffer(svgUrl)
   const originalSvg = svgBuffer.toString('utf-8')
   const bounds = await calculateContentBounds(svgBuffer)
-  let normalizedSvg = createNormalizedSvg(originalSvg, bounds, size, 0.9)
-  
-  // Replace CSS variables with actual color values for rendering
-  // Sharp doesn't understand CSS variables, so we need to replace them with actual colors
+  const normalizedSvgThemeable = createNormalizedSvg(originalSvg, bounds, size, 0.8)
+
+  const svgPath = `assets/normalized/${assetId}-${size}.svg`
+  const svgBlob = await put(svgPath, Buffer.from(normalizedSvgThemeable, 'utf-8'), {
+    access: 'public',
+    addRandomSuffix: false,
+    allowOverwrite: true,
+    token,
+    contentType: 'image/svg+xml',
+  })
+
+  let normalizedSvg = normalizedSvgThemeable
   const fallbackColor = collectionId ? getDefaultColorForCollection(collectionId) : '#2d5bff'
-  // Replace var(--svg-primary, #2d5bff) with fallback color
-  normalizedSvg = normalizedSvg.replace(/var\(--svg-primary,\s*([^)]+)\)/gi, (match, fallback) => fallback.trim())
-  // Replace var(--svg-primary) with fallback color
+  normalizedSvg = normalizedSvg.replace(/var\(--svg-primary,\s*[^)]+\)/gi, fallbackColor)
   normalizedSvg = normalizedSvg.replace(/var\(--svg-primary\)/gi, fallbackColor)
-  
   const normalizedSvgBuffer = Buffer.from(normalizedSvg, 'utf-8')
 
   const renderScale = 4
@@ -237,6 +242,7 @@ async function generateNormalizedImages(
   })
 
   return {
+    normalizedSvgUrl: svgBlob.url,
     pngUrl: pngBlob.url,
     webpUrl: webpBlob.url,
   }
@@ -254,7 +260,7 @@ async function main() {
   }
 
   const assets = engineersManual.assets || []
-  const results: Record<string, { pngUrl: string; webpUrl: string }> = {}
+  const results: Record<string, { normalizedSvgUrl: string; pngUrl: string; webpUrl: string }> = {}
 
   for (const asset of assets) {
     const svgUrl = asset.metadata?.svgUrl
@@ -267,6 +273,8 @@ async function main() {
       console.log(`Processing ${asset.id}...`)
       const normalized = await generateNormalizedImages(svgUrl, asset.id, 1024, token, asset.collectionId)
       results[asset.id] = normalized
+      console.log(`${asset.id} -> SVG: ${normalized.normalizedSvgUrl}`)
+      console.log(`${asset.id} -> SVG: ${normalized.normalizedSvgUrl}`)
       console.log(`${asset.id} -> PNG: ${normalized.pngUrl}`)
       console.log(`${asset.id} -> WebP: ${normalized.webpUrl}`)
     } catch (error) {
@@ -275,9 +283,10 @@ async function main() {
   }
 
   console.log('\n=== METADATA UPDATE FOR CATALOG ===\n')
-  console.log('Add these normalizedPngUrl and normalizedWebpUrl to metadata:')
+  console.log('Add these normalizedSvgUrl, normalizedPngUrl and normalizedWebpUrl to metadata:')
   Object.entries(results).forEach(([id, urls]) => {
     console.log(`${id}:`)
+    console.log(`  normalizedSvgUrl: "${urls.normalizedSvgUrl}"`)
     console.log(`  normalizedPngUrl: "${urls.pngUrl}"`)
     console.log(`  normalizedWebpUrl: "${urls.webpUrl}"`)
   })

@@ -33,6 +33,7 @@ export async function GET(
     description: asset.description,
     tags: asset.tags,
     relatedAssets: asset.relatedAssets,
+    ...(asset.metadata?.normalizedSvgUrl && { svgUrl: asset.metadata.normalizedSvgUrl }),
   }
 
   const rateLimit = {

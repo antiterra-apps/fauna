@@ -1404,6 +1404,11 @@
               "type": "string"
             },
             "description": "IDs of related assets (auto-computed from same collection with similar tags)"
+          },
+          "svgUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Normalized SVG URL (viewBox/sizing recalculated, themeable). Use for API consumers."
           }
         }
       },

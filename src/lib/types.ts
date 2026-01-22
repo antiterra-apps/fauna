@@ -38,7 +38,9 @@ export type Asset = {
     blobUrl?: string;
     svgUrl?: string;
     svgPotraceUrl?: string;
+    normalizedSvgUrl?: string;
     normalizedPngUrl?: string;
+    normalizedWebpUrl?: string;
     createdAt?: string;
     source?: string;
   };

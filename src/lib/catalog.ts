@@ -5,24 +5,49 @@ export const brownLight: Palette = {
   fg: '#2d2416',
 }
 
+export const brownDark: Palette = {
+  bg: '#2d2416',
+  fg: '#D4B17B',
+}
+
 export const navyLight: Palette = {
   bg: '#faf8f5',
   fg: '#1F3299',
 }
 
+export const navyDark: Palette = {
+  bg: '#1F3299',
+  fg: '#99D3FF',
+}
+
 export const rustLight: Palette = {
-  bg: '#1f0c08',
+  bg: '#faf8f5',
   fg: '#7a2f22',
 }
 
+export const rustDark: Palette = {
+  bg: '#7a2f22',
+  fg: '#FDD5D6',
+}
+
 export const lavenderLight: Palette = {
-  bg: '#140f2b',
+  bg: '#faf8f5',
   fg: '#5b4da6',
 }
 
+export const lavenderDark: Palette = {
+  bg: '#5b4da6',
+  fg: '#E3D8FF',
+}
+
 export const emeraldLight: Palette = {
-  bg: '#061f19',
+  bg: '#faf8f5',
   fg: '#0b5d4b',
+}
+
+export const emeraldDark: Palette = {
+  bg: '#0b5d4b',
+  fg: '#82F276',
 }
 
 const engineersManualAssets: Asset[] = [
@@ -39,6 +64,7 @@ const engineersManualAssets: Asset[] = [
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/manual_no_1_collaboration_01.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-1.svg",
       svgPotraceUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/variants/engineers-manual-1-potrace.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-1-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-1-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-1-1024.webp",
     },
@@ -56,6 +82,7 @@ const engineersManualAssets: Asset[] = [
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/manual_no_1_access_01.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-2.svg",
       svgPotraceUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/variants/engineers-manual-2-potrace.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-2-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-2-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-2-1024.webp",
     },
@@ -73,6 +100,7 @@ const engineersManualAssets: Asset[] = [
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/manual_no_1_infrastructure_02.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-3.svg",
       svgPotraceUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/variants/engineers-manual-3-potrace.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-3-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-3-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-3-1024.webp",
     },
@@ -90,6 +118,7 @@ const engineersManualAssets: Asset[] = [
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/manual_no_1_infrastructure_04.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-4.svg",
       svgPotraceUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/variants/engineers-manual-4-potrace.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-4-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-4-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-4-1024.webp",
     },
@@ -106,6 +135,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-5.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-5.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-5-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-5-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-5-1024.webp",
     },
@@ -122,6 +152,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-6.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-6.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-6-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-6-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-6-1024.webp",
     },
@@ -138,6 +169,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-7.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-7.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-7-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-7-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-7-1024.webp",
     },
@@ -154,6 +186,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-8.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-8.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-8-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-8-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-8-1024.webp",
     },
@@ -170,6 +203,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-9.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-9.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-9-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-9-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-9-1024.webp",
     },
@@ -186,6 +220,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-10.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-10.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-10-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-10-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-10-1024.webp",
     },
@@ -202,6 +237,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-11.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-11.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-11-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-11-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-11-1024.webp",
     },
@@ -218,6 +254,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-12.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-12.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-12-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-12-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-12-1024.webp",
     },
@@ -234,6 +271,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-13.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-13.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-13-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-13-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-13-1024.webp",
     },
@@ -250,6 +288,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-14.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-14.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-14-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-14-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-14-1024.webp",
     },
@@ -266,6 +305,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-15.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-15.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-15-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-15-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-15-1024.webp",
     },
@@ -282,6 +322,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-16.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-16.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-16-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-16-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-16-1024.webp",
     },
@@ -298,6 +339,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-17.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-17.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-17-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-17-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-17-1024.webp",
     },
@@ -314,6 +356,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-18.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-18.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-18-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-18-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-18-1024.webp",
     },
@@ -330,6 +373,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-19.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-19.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-19-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-19-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-19-1024.webp",
     },
@@ -346,6 +390,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-20.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-20.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-20-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-20-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-20-1024.webp",
     },
@@ -362,6 +407,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-21.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-21.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-21-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-21-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-21-1024.webp",
     },
@@ -378,6 +424,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-22.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-22.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-22-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-22-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-22-1024.webp",
     },
@@ -394,6 +441,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-23.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-23.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-23-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-23-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-23-1024.webp",
     },
@@ -410,6 +458,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-24.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-24.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-24-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-24-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-24-1024.webp",
     },
@@ -426,6 +475,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-25.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-25.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-25-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-25-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-25-1024.webp",
     },
@@ -442,6 +492,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-26.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-26.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-26-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-26-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-26-1024.webp",
     },
@@ -458,6 +509,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-27.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-27.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-27-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-27-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-27-1024.webp",
     },
@@ -474,6 +526,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-28.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-28.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-28-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-28-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-28-1024.webp",
     },
@@ -490,6 +543,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-29.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-29.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-29-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-29-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-29-1024.webp",
     },
@@ -506,6 +560,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-30.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-30.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-30-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-30-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-30-1024.webp",
     },
@@ -522,6 +577,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-31.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-31.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-31-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-31-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-31-1024.webp",
     },
@@ -538,6 +594,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-32.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-32.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-32-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-32-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-32-1024.webp",
     },
@@ -554,6 +611,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-33.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-33.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-33-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-33-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-33-1024.webp",
     },
@@ -570,6 +628,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-34.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-34.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-34-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-34-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-34-1024.webp",
     },
@@ -586,6 +645,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-35.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-35.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-35-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-35-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-35-1024.webp",
     },
@@ -602,6 +662,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-36.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-36.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-36-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-36-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-36-1024.webp",
     },
@@ -618,6 +679,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-37.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-37.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-37-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-37-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-37-1024.webp",
     },
@@ -634,6 +696,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-38.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-38.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-38-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-38-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-38-1024.webp",
     },
@@ -650,6 +713,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-39.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-39.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-39-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-39-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-39-1024.webp",
     },
@@ -666,6 +730,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-40.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-40.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-40-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-40-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-40-1024.webp",
     },
@@ -682,6 +747,7 @@ const engineersManualAssets: Asset[] = [
     metadata: {
       blobUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/Engineer%27s%20Manual/engineers-manual-41.png",
       svgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/svg/engineers-manual-41.svg",
+      normalizedSvgUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-41-1024.svg",
       normalizedPngUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-41-1024.png",
       normalizedWebpUrl: "https://4homyyqtbbvsfvmu.public.blob.vercel-storage.com/assets/normalized/engineers-manual-41-1024.webp",
     },

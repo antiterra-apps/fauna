@@ -57,6 +57,11 @@ async function main() {
     b.pathname.match(/engineers-manual-\d+-1024\.webp$/)
   )
 
+  const normalizedSvg = allBlobs.filter(b => 
+    b.pathname.startsWith('assets/normalized/') &&
+    b.pathname.match(/engineers-manual-\d+-1024\.svg$/)
+  )
+
   const assets: any[] = []
 
   for (let id = 5; id <= 41; id++) {
@@ -65,6 +70,7 @@ async function main() {
     const svg = svgFiles.find(b => b.pathname.includes(`${assetId}.svg`))
     const png = normalizedPng.find(b => b.pathname.includes(`${assetId}-1024.png`))
     const webp = normalizedWebp.find(b => b.pathname.includes(`${assetId}-1024.webp`))
+    const normSvg = normalizedSvg.find(b => b.pathname.includes(`${assetId}-1024.svg`))
 
     if (original) {
       const title = `Asset ${id}`
@@ -80,6 +86,7 @@ async function main() {
         metadata: {
           blobUrl: original.url,
           svgUrl: svg?.url,
+          normalizedSvgUrl: normSvg?.url,
           normalizedPngUrl: png?.url,
           normalizedWebpUrl: webp?.url,
         },

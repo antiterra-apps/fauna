@@ -39,6 +39,8 @@ export type AssetResponse = {
   description: string
   tags: string[]
   relatedAssets: string[]
+  /** Normalized SVG URL (viewBox/sizing recalculated, themeable). Use this for API consumers. */
+  svgUrl?: string
 }
 
 export type SearchResponse = {
