@@ -57,7 +57,7 @@ export function CollectionRow({ collection }: CollectionRowProps) {
               <Link href={`/asset/${asset.id}`}>
                 <div className="relative w-48 h-32 bg-[var(--divider)] group">
                   <Image
-                    src={asset.imageUrl}
+                    src={asset.metadata?.normalizedPngUrl || asset.imageUrl}
                     alt={asset.title}
                     fill
                     className="object-cover"

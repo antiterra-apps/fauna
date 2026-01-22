@@ -12,7 +12,14 @@
     "test:coverage": "vitest --coverage",
     "generate:svgs:upload": "tsx scripts/generate-and-upload-themed-svgs.ts",
     "generate:svgs:variants:upload": "tsx scripts/generate-and-upload-variant-svgs.ts",
-    "generate:normalized:images": "tsx scripts/normalize-svgs-and-generate-images.ts"
+    "generate:normalized:images": "tsx scripts/normalize-svgs-and-generate-images.ts",
+    "regenerate:normalized:images": "tsx scripts/regenerate-normalized-images.ts",
+    "regenerate:svgs:new-assets": "tsx scripts/regenerate-svgs-for-new-assets.ts",
+    "process:local:images": "tsx scripts/process-local-images.ts",
+    "list:blob:assets": "tsx scripts/list-blob-assets.ts",
+    "generate:svgs": "tsx scripts/generate-svgs.ts",
+    "generate:svgs:all": "tsx scripts/generate-svgs.ts all",
+    "generate:svgs:new": "tsx scripts/generate-svgs.ts new"
   },
   "dependencies": {
     "@tabler/icons-react": "^3.36.1",

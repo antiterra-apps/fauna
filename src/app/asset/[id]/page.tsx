@@ -4,16 +4,16 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { IconArrowLeft, IconChevronDown, IconDownload } from '@tabler/icons-react'
 import { useAuth } from '@/hooks/useAuth'
-import { getAssetById, getCollectionById } from '@/lib/catalog'
+import { getAssetById, getCollectionById, brownLight, navyLight, rustLight, lavenderLight, emeraldLight } from '@/lib/catalog'
 import { PricingModal } from '@/components/PricingModal'
 import { Skeleton } from '@/components/Skeleton'
 
 const COLOR_PRESETS = [
-  { id: 'default', primary: '#1F3299', secondary: '#0B102D' },
-  { id: 'cream_charcoal', primary: '#3b2f1e', secondary: '#14100a' },
-  { id: 'rust_sand', primary: '#7a2f22', secondary: '#1f0c08' },
-  { id: 'lavender_ink', primary: '#5b4da6', secondary: '#140f2b' },
-  { id: 'emerald_mint', primary: '#0b5d4b', secondary: '#061f19' },
+  { id: 'brown_light', primary: brownLight.fg, secondary: brownLight.bg },
+  { id: 'navy_light', primary: navyLight.fg, secondary: navyLight.bg },
+  { id: 'rust_light', primary: rustLight.fg, secondary: rustLight.bg },
+  { id: 'lavender_light', primary: lavenderLight.fg, secondary: lavenderLight.bg },
+  { id: 'emerald_light', primary: emeraldLight.fg, secondary: emeraldLight.bg },
 ] as const
 
 function normalizeSvgMarkup(raw: string, aspect: 'meet' | 'slice', disableSecondaryStroke: boolean) {
@@ -152,7 +152,7 @@ export default function AssetDetailPage() {
 
   const currentSvgUrl = asset.metadata?.svgUrl
   const potraceSvgUrl = asset.metadata?.svgPotraceUrl
-  const svgCacheBust = 'v=7'
+  const svgCacheBust = 'v=8'
   const withSvgBust = (url?: string) => url ? `${url}${url.includes('?') ? '&' : '?'}${svgCacheBust}` : undefined
 
   // Generate normalized PNG URL if not in metadata
@@ -178,7 +178,7 @@ export default function AssetDetailPage() {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [svgMarkup, setSvgMarkup] = useState<string | null>(null)
   const [svgFailed, setSvgFailed] = useState(false)
-  const [selectedPresetId, setSelectedPresetId] = useState<(typeof COLOR_PRESETS)[number]['id']>('default')
+  const [selectedPresetId, setSelectedPresetId] = useState<(typeof COLOR_PRESETS)[number]['id']>('brown_light')
   const mediaRef = useRef<HTMLDivElement | null>(null)
   const backButtonRef = useRef<HTMLButtonElement | null>(null)
 
@@ -342,16 +342,22 @@ export default function AssetDetailPage() {
       <div className="pt-16 min-h-screen" style={{ backgroundColor: '#2a2618' }}>
         <div className="max-w-7xl mx-auto px-6 py-10">
           <button
-            onClick={() => router.push('/app')}
+            onClick={() => {
+              if (window.history.length > 1) {
+                router.back()
+              } else {
+                router.push('/app')
+              }
+            }}
             ref={backButtonRef}
             className="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors"
-            aria-label="Back to app"
+            aria-label="Back"
           >
             <IconArrowLeft size={18} strokeWidth={1.5} />
             <span className="text-sm font-light">Back</span>
           </button>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
             <div>
               <div
                 className="relative w-full aspect-square overflow-hidden"

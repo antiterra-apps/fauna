@@ -33,12 +33,11 @@ interface Bounds {
 function parseSvgViewBox(svg: string): { x: number; y: number; width: number; height: number } | null {
   const viewBoxMatch = svg.match(/\bviewBox\s*=\s*["']([^"']+)["']/i)
   if (!viewBoxMatch) {
-    // Try to get width/height as fallback
-    const widthMatch = svg.match(/\bwidth\s*=\s*["']([^"']+)["']/i)
-    const heightMatch = svg.match(/\bheight\s*=\s*["']([^"']+)["']/i)
+    const widthMatch = svg.match(/\bwidth=(".*?"|'.*?')/i)
+    const heightMatch = svg.match(/\bheight=(".*?"|'.*?')/i)
     if (widthMatch && heightMatch) {
-      const w = parseFloat(widthMatch[1])
-      const h = parseFloat(heightMatch[1])
+      const w = parseFloat(widthMatch[1].slice(1, -1))
+      const h = parseFloat(heightMatch[1].slice(1, -1))
       if (!isNaN(w) && !isNaN(h)) {
         return { x: 0, y: 0, width: w, height: h }
       }
@@ -61,7 +60,6 @@ async function calculateContentBounds(svgBuffer: Buffer): Promise<Bounds> {
     throw new Error('Could not parse SVG viewBox')
   }
 
-  // Render SVG at high resolution to detect content bounds
   const highRes = 4096
   const rendered = await sharp(svgBuffer)
     .resize(highRes, highRes, { fit: 'inside', withoutEnlargement: false })
@@ -72,9 +70,7 @@ async function calculateContentBounds(svgBuffer: Buffer): Promise<Bounds> {
   const { data, info } = rendered
   const { width, height, channels } = info
 
-  // Find bounding box of non-transparent pixels
-  // Use a threshold to avoid picking up anti-aliasing artifacts
-  const alphaThreshold = 10 // Only count pixels with significant opacity
+  const alphaThreshold = 10
   let minX = width
   let minY = height
   let maxX = 0
@@ -93,7 +89,6 @@ async function calculateContentBounds(svgBuffer: Buffer): Promise<Bounds> {
     }
   }
 
-  // Convert pixel coordinates back to SVG coordinate space
   const scaleX = viewBox.width / width
   const scaleY = viewBox.height / height
 
@@ -108,26 +103,15 @@ async function calculateContentBounds(svgBuffer: Buffer): Promise<Bounds> {
 }
 
 function createNormalizedSvg(originalSvg: string, bounds: Bounds, targetPixelSize: number, contentPercent: number = 0.9): string {
-  // We want the content's larger dimension to fill contentPercent (90%) of target pixels
-  // This leaves 5% margin on each side
-  
   const contentMaxDim = Math.max(bounds.width, bounds.height)
-  
-  // Calculate viewBox size: when viewBox maps to targetPixelSize pixels,
-  // content should occupy contentPercent of those pixels
-  // viewBoxSize / contentMaxDim = targetPixelSize / (targetPixelSize * contentPercent)
-  // viewBoxSize = contentMaxDim / contentPercent
   const viewBoxSize = Math.round((contentMaxDim / contentPercent) * 100) / 100
   
-  // Center the viewBox on the content
   const contentCenterX = (bounds.minX + bounds.maxX) / 2
   const contentCenterY = (bounds.minY + bounds.maxY) / 2
   
   const newMinX = Math.round((contentCenterX - viewBoxSize / 2) * 100) / 100
   const newMinY = Math.round((contentCenterY - viewBoxSize / 2) * 100) / 100
 
-  // Remove all stroke attributes from paths/shapes to prevent dark outlines
-  // The SVG should only have fills, no strokes
   let cleanedSvg = originalSvg
     .replace(/\sstroke=(".*?"|'.*?'|[^"'\s>]+)/gi, '')
     .replace(/\sstroke-width=(".*?"|'.*?'|[^"'\s>]+)/gi, '')
@@ -136,9 +120,7 @@ function createNormalizedSvg(originalSvg: string, bounds: Bounds, targetPixelSiz
     .replace(/\sstroke-miterlimit=(".*?"|'.*?'|[^"'\s>]+)/gi, '')
     .replace(/\svector-effect=(".*?"|'.*?'|[^"'\s>]+)/gi, '')
 
-  // Ensure style tag enforces stroke:none
   if (!/<style/i.test(cleanedSvg)) {
-    // If no style tag exists, add one
     cleanedSvg = cleanedSvg.replace(
       /<svg\b([^>]*)>/i,
       (match, attrs) => {
@@ -146,24 +128,20 @@ function createNormalizedSvg(originalSvg: string, bounds: Bounds, targetPixelSiz
       }
     )
   } else {
-    // Ensure existing style tag includes stroke:none
     cleanedSvg = cleanedSvg.replace(
       /<style\b[^>]*>([\s\S]*?)<\/style>/i,
       (match, content) => {
         if (!content.includes('stroke:none')) {
           return `<style><![CDATA[${content}*{stroke:none !important;}]]></style>`
         }
-        // If stroke:none already exists but might not have !important, ensure it does
         return match.replace(/stroke:\s*none([^!]|$)/gi, 'stroke:none !important')
       }
     )
   }
 
-  // Update SVG viewBox and dimensions
   const updatedSvg = cleanedSvg.replace(
     /<svg\b([^>]*)>/i,
     (match, attrs) => {
-      // Remove existing viewBox, width, height, shape-rendering
       const cleaned = attrs
         .replace(/\sviewBox=(".*?"|'.*?')/gi, '')
         .replace(/\swidth=(".*?"|'.*?')/gi, '')
@@ -186,14 +164,9 @@ async function generateNormalizedImages(
   token: string,
   collectionId?: string
 ): Promise<{ pngUrl: string; webpUrl: string }> {
-  // Fetch original SVG
   const svgBuffer = await fetchBuffer(svgUrl)
   const originalSvg = svgBuffer.toString('utf-8')
-
-  // Calculate content bounds
   const bounds = await calculateContentBounds(svgBuffer)
-
-  // Create normalized SVG with content filling 90% of target size (5% margin each side)
   let normalizedSvg = createNormalizedSvg(originalSvg, bounds, size, 0.9)
   
   // Replace CSS variables with actual color values for rendering
@@ -206,34 +179,28 @@ async function generateNormalizedImages(
   
   const normalizedSvgBuffer = Buffer.from(normalizedSvg, 'utf-8')
 
-  // Render at much higher resolution for better quality, then downscale
-  // This ensures smooth anti-aliasing and crisp edges
-  // Sharp's density option works differently - we need to render large then downscale
-  const renderScale = 4 // Render at 4x then downscale for maximum quality
+  const renderScale = 4
   const renderSize = size * renderScale
 
-  // Generate PNG - render at 4x then downscale with high quality
-  // Using high density and proper resampling for crisp edges
   const pngBuffer = await sharp(normalizedSvgBuffer)
     .resize(renderSize, renderSize, {
       fit: 'contain',
       background: { r: 255, g: 255, b: 255, alpha: 0 },
-      kernel: sharp.kernel.lanczos3, // High-quality resampling
+      kernel: sharp.kernel.lanczos3,
     })
     .resize(size, size, {
-      kernel: sharp.kernel.lanczos3, // High-quality downscaling
+      kernel: sharp.kernel.lanczos3,
       withoutEnlargement: true,
     })
     .png({
       quality: 100,
       compressionLevel: 9,
       adaptiveFiltering: true,
-      palette: false, // Ensure full color, not palette mode
-      colors: 256, // Full color depth
+      palette: false,
+      colors: 256,
     })
     .toBuffer()
 
-  // Generate WebP - render at 4x then downscale with high quality
   const webpBuffer = await sharp(normalizedSvgBuffer)
     .resize(renderSize, renderSize, {
       fit: 'contain',
@@ -247,11 +214,10 @@ async function generateNormalizedImages(
     .webp({
       quality: 100,
       effort: 6,
-      lossless: false, // Use lossy for smaller files, but high quality
+      lossless: false,
     })
     .toBuffer()
 
-  // Upload PNG
   const pngPath = `assets/normalized/${assetId}-${size}.png`
   const pngBlob = await put(pngPath, pngBuffer, {
     access: 'public',
@@ -261,7 +227,6 @@ async function generateNormalizedImages(
     contentType: 'image/png',
   })
 
-  // Upload WebP
   const webpPath = `assets/normalized/${assetId}-${size}.webp`
   const webpBlob = await put(webpPath, webpBuffer, {
     access: 'public',
@@ -283,7 +248,12 @@ async function main() {
     throw new Error('Missing BLOB_READ_WRITE_TOKEN')
   }
 
-  const assets = collections.flatMap(c => c.assets)
+  const engineersManual = collections.find(c => c.id === 'engineers-manual')
+  if (!engineersManual) {
+    throw new Error('Engineers Manual collection not found')
+  }
+
+  const assets = engineersManual.assets || []
   const results: Record<string, { pngUrl: string; webpUrl: string }> = {}
 
   for (const asset of assets) {
@@ -304,8 +274,13 @@ async function main() {
     }
   }
 
-  console.log('\nResults:')
-  console.log(JSON.stringify(results, null, 2))
+  console.log('\n=== METADATA UPDATE FOR CATALOG ===\n')
+  console.log('Add these normalizedPngUrl and normalizedWebpUrl to metadata:')
+  Object.entries(results).forEach(([id, urls]) => {
+    console.log(`${id}:`)
+    console.log(`  normalizedPngUrl: "${urls.pngUrl}"`)
+    console.log(`  normalizedWebpUrl: "${urls.webpUrl}"`)
+  })
 }
 
 main().catch((err) => {
