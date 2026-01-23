@@ -2,10 +2,20 @@
 
 import { useState, useEffect, Suspense } from 'react'
 import Link from 'next/link'
-import { IconSearch, IconUser } from '@tabler/icons-react'
+import { IconSearch, IconUser, IconMoon, IconSun } from '@tabler/icons-react'
 import { motion } from 'framer-motion'
 import { useAuth } from '@/hooks/useAuth'
 import { PricingModal } from './PricingModal'
+import { useColorSelector } from '@/contexts/ColorSelectorContext'
+import { brownLight, brownDark, navyLight, navyDark, rustLight, rustDark, lavenderLight, lavenderDark, emeraldLight, emeraldDark } from '@/lib/catalog'
+
+const COLOR_PRESETS = [
+  { id: 'brown_light', primary: brownLight.fg, secondary: brownLight.bg, primaryLight: brownDark.fg, secondaryLight: brownDark.bg },
+  { id: 'navy_light', primary: navyLight.fg, secondary: navyLight.bg, primaryLight: navyDark.fg, secondaryLight: navyDark.bg },
+  { id: 'rust_light', primary: rustLight.fg, secondary: rustLight.bg, primaryLight: rustDark.fg, secondaryLight: rustDark.bg },
+  { id: 'lavender_light', primary: lavenderLight.fg, secondary: lavenderLight.bg, primaryLight: lavenderDark.fg, secondaryLight: lavenderDark.bg },
+  { id: 'emerald_light', primary: emeraldLight.fg, secondary: emeraldLight.bg, primaryLight: emeraldDark.fg, secondaryLight: emeraldDark.bg },
+] as const
 
 function TopNavContent() {
   const { user, logout } = useAuth()
@@ -13,6 +23,7 @@ function TopNavContent() {
   const [searchQuery, setSearchQuery] = useState('')
   const [isPricingOpen, setIsPricingOpen] = useState(false)
   const [isPastHero, setIsPastHero] = useState(false)
+  const colorSelector = useColorSelector()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,7 +44,7 @@ function TopNavContent() {
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 z-50 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between relative">
           {/* Logo and Search - far left */}
           <div className="flex items-center gap-4">
             <Link href={user ? '/app' : '/home'} className="flex items-center">
@@ -74,8 +85,45 @@ function TopNavContent() {
             )}
           </div>
 
-          {/* Spacer for middle */}
-          <div className="flex-1" />
+          {/* Center: Dark mode toggle and color selector when scrolled */}
+          {colorSelector?.showInNav && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: Math.min(1, colorSelector.scrollProgress * 1.5), y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="absolute left-1/2 -translate-x-1/2 flex items-center gap-3"
+            >
+              <button
+                onClick={() => colorSelector?.setIsDarkMode(!colorSelector.isDarkMode)}
+                aria-label="Toggle dark mode"
+                className={`w-8 h-8 backdrop-blur-md border flex items-center justify-center transition-all duration-300 ${bgClass} ${borderClass} ${hoverBgClass}`}
+                style={{ borderRadius: 0 }}
+              >
+                {colorSelector?.isDarkMode ? (
+                  <IconSun size={16} strokeWidth={1.5} style={{ color: textColor }} />
+                ) : (
+                  <IconMoon size={16} strokeWidth={1.5} style={{ color: textColor }} />
+                )}
+              </button>
+              <div className="flex gap-2">
+                {COLOR_PRESETS.map((p) => (
+                  <button
+                    key={p.id}
+                    onClick={() => colorSelector.setSelectedPresetId(p.id as any)}
+                    aria-label={`Color preset ${p.id}`}
+                    className="w-7 h-7 border transition-colors"
+                    style={{
+                      borderRadius: 0,
+                      backgroundColor: (p as any).primary,
+                      borderColor: colorSelector.selectedPresetId === p.id 
+                        ? (isPastHero ? 'rgba(42, 38, 24, 0.6)' : 'rgba(255, 255, 255, 0.6)')
+                        : (isPastHero ? 'rgba(42, 38, 24, 0.15)' : 'rgba(255, 255, 255, 0.15)'),
+                    }}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          )}
 
           {/* Buttons - far right */}
           <div className="flex items-center gap-3">

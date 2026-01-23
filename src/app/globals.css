@@ -34,3 +34,9 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+.fauna-svg-scope {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

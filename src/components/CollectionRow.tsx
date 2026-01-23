@@ -14,8 +14,8 @@ interface CollectionRowProps {
 export function CollectionRow({ collection }: CollectionRowProps) {
   const [isHovered, setIsHovered] = useState(false)
 
-  const previewAssets = collection.assets.filter(a => a.isFree)
-  const totalCount = collection.assets.length
+  const previewAssets = collection.assets?.filter(a => a.isFree) || []
+  const totalCount = collection.assets?.length || 0
 
   const handleMouseEnter = () => {
     setIsHovered(true)
@@ -57,7 +57,7 @@ export function CollectionRow({ collection }: CollectionRowProps) {
               <Link href={`/asset/${asset.id}`}>
                 <div className="relative w-48 h-32 bg-[var(--divider)] group">
                   <Image
-                    src={asset.imageUrl}
+                    src={asset.metadata?.normalizedPngUrl || asset.imageUrl}
                     alt={asset.title}
                     fill
                     className="object-cover"

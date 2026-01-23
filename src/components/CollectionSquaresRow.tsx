@@ -15,14 +15,15 @@ interface CollectionSquaresRowProps {
 }
 
 export function CollectionSquaresRow({ collection, titleOverride, isSmallTitle }: CollectionSquaresRowProps) {
-  const featured = useMemo(() => collection.assets.slice(0, FEATURED_COUNT), [collection.assets])
+  const featured = useMemo(() => collection.assets?.slice(0, FEATURED_COUNT) || [], [collection.assets])
   const title = titleOverride ?? collection.title
 
   return (
     <div className="w-full overflow-x-auto">
       <div className="flex gap-4 w-max px-6 py-6">
-        <div
-          className="relative flex-shrink-0"
+        <Link
+          href={`/collections/${collection.id}`}
+          className="relative flex-shrink-0 cursor-pointer hover:opacity-90 transition-opacity"
           style={{ width: TILE_SIZE_PX, height: TILE_SIZE_PX }}
         >
           <div
@@ -50,24 +51,39 @@ export function CollectionSquaresRow({ collection, titleOverride, isSmallTitle }
               <span className="font-normal font-sans leading-tight">{title}</span>
             </div>
           </div>
-        </div>
+        </Link>
 
-        {featured.map((asset) => (
-          <Link key={asset.id} href={`/asset/${asset.id}`} className="flex-shrink-0">
-            <div
-              className="relative overflow-hidden"
-              style={{ width: TILE_SIZE_PX, height: TILE_SIZE_PX }}
-            >
-              <Image
-                src={asset.imageUrl}
-                alt={asset.title}
-                fill
-                className="object-cover"
-                sizes={`${TILE_SIZE_PX}px`}
-              />
-            </div>
-          </Link>
-        ))}
+        {featured.map((asset) => {
+          const imageUrl = asset.metadata?.normalizedPngUrl || asset.imageUrl
+          const imageUrlWithCache = imageUrl ? `${imageUrl}${imageUrl.includes('?') ? '&' : '?'}v=2` : imageUrl
+          return (
+            <Link key={asset.id} href={`/asset/${asset.id}`} className="flex-shrink-0">
+              <div
+                className="relative overflow-hidden p-8"
+                style={{
+                  width: TILE_SIZE_PX,
+                  height: TILE_SIZE_PX,
+                  backgroundColor: '#f7f3eb',
+                  backgroundImage:
+                    'linear-gradient(rgba(255,255,255,0.10), rgba(255,255,255,0.10)), url(/paper-grain.svg)',
+                  backgroundRepeat: 'repeat, repeat',
+                  backgroundSize: 'auto, 512px 512px',
+                  backgroundBlendMode: 'normal, multiply',
+                }}
+              >
+                <div className="relative w-full h-full">
+                  <Image
+                    src={imageUrlWithCache}
+                    alt={asset.title}
+                    fill
+                    className="object-cover"
+                    sizes={`${TILE_SIZE_PX}px`}
+                  />
+                </div>
+              </div>
+            </Link>
+          )
+        })}
       </div>
     </div>
   )

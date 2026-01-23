@@ -4,16 +4,16 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { IconArrowLeft, IconChevronDown, IconDownload } from '@tabler/icons-react'
 import { useAuth } from '@/hooks/useAuth'
-import { getAssetById, getCollectionById } from '@/lib/catalog'
+import { getAssetById, getCollectionById, brownLight, navyLight, rustLight, lavenderLight, emeraldLight } from '@/lib/catalog'
 import { PricingModal } from '@/components/PricingModal'
 import { Skeleton } from '@/components/Skeleton'
 
 const COLOR_PRESETS = [
-  { id: 'default', primary: '#1F3299', secondary: '#0B102D' },
-  { id: 'cream_charcoal', primary: '#3b2f1e', secondary: '#14100a' },
-  { id: 'rust_sand', primary: '#7a2f22', secondary: '#1f0c08' },
-  { id: 'lavender_ink', primary: '#5b4da6', secondary: '#140f2b' },
-  { id: 'emerald_mint', primary: '#0b5d4b', secondary: '#061f19' },
+  { id: 'brown_light', primary: brownLight.fg, secondary: brownLight.bg },
+  { id: 'navy_light', primary: navyLight.fg, secondary: navyLight.bg },
+  { id: 'rust_light', primary: rustLight.fg, secondary: rustLight.bg },
+  { id: 'lavender_light', primary: lavenderLight.fg, secondary: lavenderLight.bg },
+  { id: 'emerald_light', primary: emeraldLight.fg, secondary: emeraldLight.bg },
 ] as const
 
 function normalizeSvgMarkup(raw: string, aspect: 'meet' | 'slice', disableSecondaryStroke: boolean) {
@@ -63,7 +63,7 @@ function SvgTile({
   secondary,
 }: {
   url: string
-  variantId: 'current' | 'potrace' | 'centerline'
+  variantId: 'current' | 'potrace'
   stripThemeStyle: boolean
   primary?: string
   secondary?: string
@@ -83,8 +83,8 @@ function SvgTile({
       })
       .then((text) => {
         if (cancelled) return
-        const aspect = variantId === 'centerline' ? 'meet' : 'slice'
-        const normalized = normalizeSvgMarkup(text, aspect, variantId !== 'centerline')
+        const aspect = 'slice'
+        const normalized = normalizeSvgMarkup(text, aspect, true)
         const toRender = stripThemeStyle
           ? normalized.replace(/<style\b[^>]*>[\s\S]*?--svg-(primary|secondary)[\s\S]*?<\/style>/gi, '')
           : normalized
@@ -148,12 +148,11 @@ export default function AssetDetailPage() {
     .replace(new RegExp(`^${collection?.title}\\s+`, 'i'), '')
     .trim()
 
-  type VariantId = 'png' | 'current' | 'potrace' | 'centerline'
+  type VariantId = 'png' | 'current' | 'potrace'
 
   const currentSvgUrl = asset.metadata?.svgUrl
   const potraceSvgUrl = asset.metadata?.svgPotraceUrl
-  const centerlineSvgUrl = asset.metadata?.svgCenterlineUrl
-  const svgCacheBust = 'v=7'
+  const svgCacheBust = 'v=8'
   const withSvgBust = (url?: string) => url ? `${url}${url.includes('?') ? '&' : '?'}${svgCacheBust}` : undefined
 
   // Generate normalized PNG URL if not in metadata
@@ -174,20 +173,18 @@ export default function AssetDetailPage() {
       ? withSvgBust(currentSvgUrl)
       : activeVariant === 'potrace'
         ? withSvgBust(potraceSvgUrl)
-        : activeVariant === 'centerline'
-          ? withSvgBust(centerlineSvgUrl)
-          : undefined
+        : undefined
 
   const [imageLoaded, setImageLoaded] = useState(false)
   const [svgMarkup, setSvgMarkup] = useState<string | null>(null)
   const [svgFailed, setSvgFailed] = useState(false)
-  const [selectedPresetId, setSelectedPresetId] = useState<(typeof COLOR_PRESETS)[number]['id']>('default')
+  const [selectedPresetId, setSelectedPresetId] = useState<(typeof COLOR_PRESETS)[number]['id']>('brown_light')
   const mediaRef = useRef<HTMLDivElement | null>(null)
   const backButtonRef = useRef<HTMLButtonElement | null>(null)
 
   const selectedPreset = COLOR_PRESETS.find(p => p.id === selectedPresetId) ?? COLOR_PRESETS[0]
   const svgMarkupToRender = svgMarkup
-  const svgDownloadUrl = activeSvgUrl ?? withSvgBust(potraceSvgUrl || currentSvgUrl || centerlineSvgUrl)
+  const svgDownloadUrl = activeSvgUrl ?? withSvgBust(potraceSvgUrl || currentSvgUrl)
 
   useEffect(() => {
     let cancelled = false
@@ -203,8 +200,8 @@ export default function AssetDetailPage() {
       })
       .then((text) => {
         if (cancelled) return
-        const aspect = activeVariant === 'centerline' ? 'meet' : 'slice'
-        const normalized = normalizeSvgMarkup(text, aspect, activeVariant !== 'centerline')
+        const aspect = 'slice'
+        const normalized = normalizeSvgMarkup(text, aspect, true)
         setSvgMarkup(normalized)
         setImageLoaded(true)
       })
@@ -345,16 +342,22 @@ export default function AssetDetailPage() {
       <div className="pt-16 min-h-screen" style={{ backgroundColor: '#2a2618' }}>
         <div className="max-w-7xl mx-auto px-6 py-10">
           <button
-            onClick={() => router.push('/app')}
+            onClick={() => {
+              if (window.history.length > 1) {
+                router.back()
+              } else {
+                router.push('/app')
+              }
+            }}
             ref={backButtonRef}
             className="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors"
-            aria-label="Back to app"
+            aria-label="Back"
           >
             <IconArrowLeft size={18} strokeWidth={1.5} />
             <span className="text-sm font-light">Back</span>
           </button>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
             <div>
               <div
                 className="relative w-full aspect-square overflow-hidden"
@@ -479,10 +482,16 @@ export default function AssetDetailPage() {
                         <div className="text-[11px] font-light tracking-wider text-white/50 uppercase mb-2">Availability</div>
                         <div className="text-sm font-light">{asset.isFree ? 'Free' : 'Pro'}</div>
                       </div>
-                      {asset.conceptType && (
+                      {asset.description && (
                         <div>
-                          <div className="text-[11px] font-light tracking-wider text-white/50 uppercase mb-2">Concept type</div>
-                          <div className="text-sm font-light">{asset.conceptType}</div>
+                          <div className="text-[11px] font-light tracking-wider text-white/50 uppercase mb-2">Description</div>
+                          <div className="text-sm font-light">{asset.description}</div>
+                        </div>
+                      )}
+                      {asset.tags && asset.tags.length > 0 && (
+                        <div>
+                          <div className="text-[11px] font-light tracking-wider text-white/50 uppercase mb-2">Tags</div>
+                          <div className="text-sm font-light">{asset.tags.join(', ')}</div>
                         </div>
                       )}
                     </div>
@@ -531,7 +540,7 @@ export default function AssetDetailPage() {
                   {activeSvgUrl ? (
                     <SvgTile
                       url={activeSvgUrl}
-                      variantId={activeVariant === 'centerline' ? 'centerline' : activeVariant === 'potrace' ? 'potrace' : 'current'}
+                      variantId={activeVariant === 'potrace' ? 'potrace' : 'current'}
                       stripThemeStyle={false}
                       primary={(selectedPreset as any).primary}
                       secondary={(selectedPreset as any).secondary}

@@ -4,6 +4,7 @@ import './globals.css'
 import { PaletteProvider } from '@/components/PaletteProvider'
 import { AuthProvider } from '@/components/AuthProvider'
 import { ConditionalTopNav } from '@/components/ConditionalTopNav'
+import { ColorSelectorProvider } from '@/contexts/ColorSelectorContext'
 
 const fraunces = Fraunces({
   subsets: ['latin'],
@@ -46,8 +47,10 @@ export default function RootLayout({
       <body className="font-sans">
         <AuthProvider>
           <PaletteProvider>
-            <ConditionalTopNav />
-            <main>{children}</main>
+            <ColorSelectorProvider>
+              <ConditionalTopNav />
+              <main>{children}</main>
+            </ColorSelectorProvider>
           </PaletteProvider>
         </AuthProvider>
       </body>

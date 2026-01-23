@@ -31,7 +31,7 @@ function HomePageContentInner() {
     return mockCollections.filter(c =>
       c.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       c.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      c.assets.some(a => a.title.toLowerCase().includes(searchQuery.toLowerCase()))
+      c.assets?.some(a => a.title.toLowerCase().includes(searchQuery.toLowerCase()))
     )
   }, [searchQuery])
 
