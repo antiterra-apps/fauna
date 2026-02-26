@@ -1,0 +1,780 @@
+{
+  "engineers-manual-1": {
+    "title": "Three Minds, One Board",
+    "description": "Three colleagues stand with their backs to the viewer, gathered around a pinboard covered in notes and images, gesturing in quiet discussion. The scene evokes focused creative collaboration — industrious, thoughtful, and collegial.",
+    "tags": [
+      "colleagues",
+      "collaboration",
+      "whiteboard",
+      "office",
+      "figures",
+      "pinboard",
+      "focused",
+      "industrious",
+      "centered",
+      "large-negative-space",
+      "about-page",
+      "feature-block"
+    ]
+  },
+  "engineers-manual-2": {
+    "title": "Hand Turning the Key",
+    "description": "A gloved hand inserts a skeleton key into a heavy door lock, rendered in dense crosshatching that conveys weight and threshold. The image evokes secrecy, access, and the quiet tension of a moment before entry.",
+    "tags": [
+      "hand",
+      "key",
+      "lock",
+      "door",
+      "mysterious",
+      "tense",
+      "intimate",
+      "left-anchored",
+      "large-negative-space",
+      "hero-section",
+      "pull-quote",
+      "feature-block"
+    ]
+  },
+  "engineers-manual-3": {
+    "title": "Twin Cellar Cabinets, Stocked",
+    "description": "A pair of glass-fronted wine refrigerators rendered in dense crosshatching, their shelves laden with bottles — evoking the quiet abundance of a well-kept cellar. The sturdy, utilitarian forms carry an air of domestic ritual and careful collection.",
+    "tags": [
+      "wine refrigerator",
+      "wine storage",
+      "bottles",
+      "cabinetry",
+      "kitchen appliance",
+      "abundant",
+      "domestic",
+      "methodical",
+      "centered",
+      "large-negative-space",
+      "feature-block",
+      "section-divider"
+    ]
+  },
+  "engineers-manual-4": {
+    "title": "Nature Framed in Pixels",
+    "description": "A vintage CRT computer monitor displays a dense woodland scene, keyboard and mouse arranged neatly before it — an quietly surreal meditation on technology and nature in dialogue. The dense crosshatching lends the piece a warm, contemplative gravity.",
+    "tags": [
+      "computer",
+      "monitor",
+      "keyboard",
+      "mouse",
+      "tree",
+      "technology",
+      "nostalgic",
+      "surreal",
+      "contemplative",
+      "centered",
+      "large-negative-space",
+      "feature-block",
+      "hero-section",
+      "about-page"
+    ]
+  },
+  "engineers-manual-5": {
+    "title": "Compact Saloon, Postwar Roads",
+    "description": "A meticulously crosshatched vintage compact sedan rendered in three-quarter view, its rounded body and chrome details evoking the quiet optimism of mid-century European motoring. The illustration carries a nostalgic, unhurried quality suited to stories of journeys past.",
+    "tags": [
+      "vintage car",
+      "automobile",
+      "sedan",
+      "classic vehicle",
+      "nostalgic",
+      "adventurous",
+      "wistful",
+      "centered",
+      "large-negative-space",
+      "hero-section",
+      "feature-block",
+      "section-divider"
+    ]
+  },
+  "engineers-manual-6": {
+    "title": "Plug and Socket, Connected",
+    "description": "A European-style electrical outlet with one plug inserted and one socket vacant, cord trailing downward — rendered in dense crosshatching that evokes the quiet utility of domestic infrastructure. The composition carries a subtle tension between connection and absence.",
+    "tags": [
+      "electrical outlet",
+      "plug",
+      "cord",
+      "socket",
+      "technology",
+      "utilitarian",
+      "contemplative",
+      "centered",
+      "large-negative-space",
+      "feature-block",
+      "section-divider",
+      "about-page"
+    ]
+  },
+  "engineers-manual-7": {
+    "title": "The Factory Floor, Idle Hour",
+    "description": "A vast industrial workshop stretches into deep perspective, rows of heavy machinery flanking a central corridor beneath iron beams and hanging lamps. The scene evokes the solemn grandeur of 19th-century manufacture — ordered, purposeful, and quietly monumental.",
+    "tags": [
+      "factory",
+      "industrial",
+      "machinery",
+      "interior",
+      "architecture",
+      "workshop",
+      "iron-beams",
+      "nostalgic",
+      "austere",
+      "centered",
+      "deep-perspective",
+      "hero-section",
+      "about-page",
+      "feature-block"
+    ]
+  },
+  "engineers-manual-8": {
+    "title": "Door Ajar, Threshold Waiting",
+    "description": "A six-panelled wooden door stands slightly open within its frame, darkness beyond the threshold suggesting mystery or invitation. The engraved linework and scattered gravel at the base evoke a quiet, liminal moment between departure and arrival.",
+    "tags": [
+      "door",
+      "doorframe",
+      "architecture",
+      "threshold",
+      "doorknob",
+      "mysterious",
+      "liminal",
+      "quiet",
+      "anticipatory",
+      "centered",
+      "large-negative-space",
+      "hero-section",
+      "about-page",
+      "section-divider"
+    ]
+  },
+  "engineers-manual-9": {
+    "title": "The Mechanical Orchestra Performs",
+    "description": "A band of retro-style robots plays piano, drums, and percussion in a lively ensemble, rendered in dense crosshatching with a whimsical yet earnest quality. The scene blends vintage scientific illustration with playful absurdity, evoking nostalgia for mid-century futurism.",
+    "tags": [
+      "robots",
+      "band",
+      "music",
+      "piano",
+      "drums",
+      "ensemble",
+      "whimsical",
+      "nostalgic",
+      "playful",
+      "centered",
+      "large-negative-space",
+      "hero-section",
+      "feature-block",
+      "about-page"
+    ]
+  },
+  "engineers-manual-10": {
+    "title": "Mechanical Arm at Rest",
+    "description": "A detailed engraving of an industrial robotic arm mounted on a complex machinery base, its articulated joints and mechanical components rendered with precise crosshatching. The image evokes the austere poetry of automation — industrial precision made strangely elegant.",
+    "tags": [
+      "robotic arm",
+      "industrial machinery",
+      "mechanical",
+      "technology",
+      "manufacturing",
+      "technical",
+      "precise",
+      "large-negative-space",
+      "centered",
+      "feature-block",
+      "hero-section",
+      "section-divider"
+    ]
+  },
+  "engineers-manual-11": {
+    "title": "The Greengrocer's Morning Display",
+    "description": "A shopkeeper tends his produce stand beneath a striped awning, crates of fruits and vegetables arranged in abundant rows outside the storefront. The scene evokes the quiet industriousness of a European market street before the day's crowd arrives.",
+    "tags": [
+      "shopkeeper",
+      "market stall",
+      "produce",
+      "storefront",
+      "awning",
+      "hanging baskets",
+      "potted plants",
+      "nostalgic",
+      "industrious",
+      "quiet",
+      "centered",
+      "hero-section",
+      "about-page",
+      "feature-block"
+    ]
+  },
+  "engineers-manual-12": {
+    "title": "Two Colleagues, Shared Screen",
+    "description": "Two bearded men collaborate at a shared desk, one seated behind a monitor while the other leans in attentively, a potted plant softening the workspace behind them. The scene evokes focused creative partnership and the quiet rhythm of modern intellectual work rendered in warm, timeless strokes.",
+    "tags": [
+      "colleagues",
+      "desk",
+      "computer",
+      "collaboration",
+      "office",
+      "potted-plant",
+      "focused",
+      "collegial",
+      "centered",
+      "large-negative-space",
+      "about-page",
+      "feature-block"
+    ]
+  },
+  "engineers-manual-13": {
+    "title": "Consultation Across the Desk",
+    "description": "Two figures lean toward one another across a cluttered office desk, one seated behind it and one as a visitor, surrounded by towering book stacks and a potted plant. The scene evokes the quiet intimacy of a professional meeting — earnest, unhurried, and studiously human.",
+    "tags": [
+      "figures",
+      "office",
+      "desk",
+      "books",
+      "laptop",
+      "consultation",
+      "plant",
+      "intimate",
+      "focused",
+      "centered",
+      "large-negative-space",
+      "about-page",
+      "feature-block",
+      "testimonial"
+    ]
+  },
+  "engineers-manual-14": {
+    "title": "Server Rack, Fully Loaded",
+    "description": "A densely packed server rack cabinet rendered in bold crosshatched engraving, its tiered modules and tangled cables suggesting the ordered complexity of modern infrastructure. The illustration carries a quietly industrial, almost archival quality.",
+    "tags": [
+      "server rack",
+      "technology",
+      "cabinet",
+      "hardware",
+      "cables",
+      "industrial",
+      "technical",
+      "centered",
+      "large-negative-space",
+      "feature-block",
+      "section-divider",
+      "sidebar"
+    ]
+  },
+  "engineers-manual-15": {
+    "title": "Laptop, Screen Ajar",
+    "description": "A vintage-style engraved illustration of an open laptop computer rendered in bold crosshatching and ink, evoking the curious collision of modern technology and old-world craft. The dark, textured linework lends the familiar object a timeworn, literary quality.",
+    "tags": [
+      "laptop",
+      "computer",
+      "technology",
+      "workspace",
+      "nostalgic",
+      "industrious",
+      "contemplative",
+      "centered",
+      "large-negative-space",
+      "feature-block",
+      "about-page",
+      "sidebar"
+    ]
+  },
+  "engineers-manual-16": {
+    "title": "Lamp Over Stacked Books",
+    "description": "A desk lamp casts radiating beams of light down onto two towering stacks of books and manuscripts, one lying open beneath the glow. The scene evokes late-night scholarship, quiet intellectual devotion, and the romance of accumulated knowledge.",
+    "tags": [
+      "books",
+      "desk-lamp",
+      "light-rays",
+      "stack",
+      "reading",
+      "studious",
+      "nostalgic",
+      "contemplative",
+      "centered",
+      "large-negative-space",
+      "hero-section",
+      "about-page"
+    ]
+  },
+  "engineers-manual-17": {
+    "title": "Scholar With Magnifying Glass",
+    "description": "A woman seated at a desk peers intently through a magnifying glass at a document, with open books spread before her. The scene evokes quiet intellectual absorption and the meticulous pleasure of close study.",
+    "tags": [
+      "woman",
+      "magnifying-glass",
+      "document",
+      "books",
+      "scholar",
+      "research",
+      "focused",
+      "intellectual",
+      "nostalgic",
+      "centered",
+      "large-negative-space",
+      "feature-block",
+      "about-page",
+      "pull-quote"
+    ]
+  },
+  "engineers-manual-18": {
+    "title": "The Chemist at Work",
+    "description": "A bespectacled scientist hunches intently over a laboratory bench, examining a flask surrounded by test tubes, glassware, and open books. The scene evokes focused intellectual pursuit and the quiet obsession of 19th-century scientific discovery.",
+    "tags": [
+      "scientist",
+      "laboratory",
+      "flask",
+      "test-tubes",
+      "glassware",
+      "books",
+      "focused",
+      "scholarly",
+      "contemplative",
+      "centered",
+      "large-negative-space",
+      "feature-block",
+      "about-page",
+      "section-divider"
+    ]
+  },
+  "engineers-manual-19": {
+    "title": "Scientist at the Microscope",
+    "description": "A young woman bends intently over a microscope at a cluttered laboratory desk, surrounded by open notebooks, specimen jars, and botanical samples. The scene evokes quiet intellectual absorption and the unhurried devotion of 19th-century scientific inquiry.",
+    "tags": [
+      "woman",
+      "microscope",
+      "laboratory",
+      "books",
+      "science",
+      "focused",
+      "studious",
+      "nostalgic",
+      "centered",
+      "large-negative-space",
+      "hero-section",
+      "about-page"
+    ]
+  },
+  "engineers-manual-20": {
+    "title": "Two Scientists, Shared Discovery",
+    "description": "Two women lean together over a laboratory workbench, examining specimens beside a vintage microscope and glass vials, their focused concentration radiating quiet intellectual intensity. The dense crosshatching and strong contrast evoke the earnest spirit of mid-century scientific inquiry.",
+    "tags": [
+      "scientists",
+      "women",
+      "laboratory",
+      "microscope",
+      "collaboration",
+      "focused",
+      "scholarly",
+      "nostalgic",
+      "centered",
+      "large-negative-space",
+      "hero-section",
+      "feature-block"
+    ]
+  },
+  "engineers-manual-21": {
+    "title": "Hand Offering the Key",
+    "description": "A hand emerging from the upper right edge extends a ornate skeleton key downward, rendered in dense crosshatching with a dramatic fade of hatched lines dissolving below. Evokes secrecy, invitation, and the threshold of something guarded.",
+    "tags": [
+      "hand",
+      "skeleton-key",
+      "antique-key",
+      "gesture",
+      "mysterious",
+      "dramatic",
+      "intimate",
+      "edge-bleeding",
+      "top-right-anchor",
+      "large-negative-space",
+      "hero-section",
+      "feature-block"
+    ]
+  },
+  "engineers-manual-22": {
+    "title": "The Writer's Desk, Waiting",
+    "description": "A vintage personal computer, keyboard, and mouse sit on a weathered desk beside a leafy potted plant and a ceramic cup, rendered in rich crosshatched engraving. The scene evokes quiet creative solitude — a workspace paused between thoughts.",
+    "tags": [
+      "desk",
+      "vintage computer",
+      "keyboard",
+      "potted plant",
+      "mug",
+      "workspace",
+      "nostalgic",
+      "contemplative",
+      "centered",
+      "large-negative-space",
+      "about-page",
+      "feature-block"
+    ]
+  },
+  "engineers-manual-23": {
+    "title": "Five Minds, One Table",
+    "description": "Five colleagues work in focused concentration around a shared desk cluttered with laptops, papers, and a pendant lamp casting quiet light. The scene evokes the absorbed hum of collaborative industry — purposeful, unhurried, and deeply human.",
+    "tags": [
+      "colleagues",
+      "office",
+      "desk",
+      "laptops",
+      "teamwork",
+      "focused",
+      "industrious",
+      "collaborative",
+      "centered",
+      "large-negative-space",
+      "about-page",
+      "feature-block"
+    ]
+  },
+  "engineers-manual-24": {
+    "title": "The Open Office, Midmorning",
+    "description": "Six colleagues work side by side at shared desks, absorbed in laptops and papers beneath a soft desk lamp, with a potted plant anchoring the left edge. The scene evokes quiet industriousness and the familiar rhythm of collaborative work.",
+    "tags": [
+      "office",
+      "colleagues",
+      "desk",
+      "laptop",
+      "potted-plant",
+      "lamp",
+      "focused",
+      "industrious",
+      "collegial",
+      "centered",
+      "large-negative-space",
+      "hero-section",
+      "about-page",
+      "feature-block"
+    ]
+  },
+  "engineers-manual-25": {
+    "title": "The Deli Counter, Morning",
+    "description": "A vendor tends a well-stocked delicatessen counter as a customer browses the display case, shelves of bottles and provisions lining the walls behind. The scene evokes the unhurried ritual of a neighborhood shop, intimate and abundant.",
+    "tags": [
+      "deli",
+      "shopkeeper",
+      "counter",
+      "provisions",
+      "shelves",
+      "customer",
+      "intimate",
+      "bustling",
+      "nostalgic",
+      "centered",
+      "large-negative-space",
+      "feature-block",
+      "about-page",
+      "section-divider"
+    ]
+  },
+  "engineers-manual-26": {
+    "title": "Parisian Corner Building, Dusk",
+    "description": "A five-story Haussmann-era corner building with a striped awning café at street level, rendered in dense crosshatching with dramatic shadow on the side façade. Evokes the layered, lived-in character of old Paris — simultaneously grand and intimate.",
+    "tags": [
+      "architecture",
+      "building",
+      "café",
+      "Parisian",
+      "street-corner",
+      "awning",
+      "chimneys",
+      "nostalgic",
+      "stoic",
+      "centered",
+      "large-negative-space",
+      "hero-section",
+      "about-page",
+      "section-divider"
+    ]
+  },
+  "engineers-manual-27": {
+    "title": "Reading Alone by Water",
+    "description": "A solitary figure sits perched atop a rocky coastal cliff, absorbed in a book while the sea stretches endlessly to the left. The scene evokes deep solitude, intellectual retreat, and the romance of nature as a private sanctuary.",
+    "tags": [
+      "figure",
+      "cliff",
+      "coastline",
+      "water",
+      "reading",
+      "solitude",
+      "contemplative",
+      "nostalgic",
+      "top-right-anchored",
+      "large-negative-space",
+      "about-page",
+      "pull-quote"
+    ]
+  },
+  "engineers-manual-28": {
+    "title": "Terrace Table, City Beyond",
+    "description": "A couple sits at a small café table beneath a grand column and overhanging tree, with a Parisian cityscape stretching behind them. The scene evokes quiet intimacy and the unhurried pleasure of an afternoon spent in good company.",
+    "tags": [
+      "couple",
+      "café",
+      "column",
+      "tree",
+      "cityscape",
+      "potted-plant",
+      "street-lamp",
+      "intimate",
+      "nostalgic",
+      "leisurely",
+      "large-negative-space",
+      "bottom-right",
+      "hero-section",
+      "about-page"
+    ]
+  },
+  "engineers-manual-29": {
+    "title": "Morning Work by Window",
+    "description": "A solitary figure seated at a table works at a laptop beside a tall window, a teapot and mug keeping company in the quiet room. The scene evokes focused solitude and the unhurried rhythm of a productive morning at home.",
+    "tags": [
+      "figure",
+      "woman",
+      "laptop",
+      "window",
+      "teapot",
+      "mug",
+      "potted-plant",
+      "interior",
+      "focused",
+      "solitary",
+      "corner-anchored",
+      "large-negative-space",
+      "about-page",
+      "hero-section"
+    ]
+  },
+  "engineers-manual-30": {
+    "title": "Woman Working, Coffee in Hand",
+    "description": "A young woman sits absorbed at her laptop, mug raised to her lips, surrounded by stacked books and a small potted plant. The scene radiates quiet industriousness and the cozy solitude of deep focus.",
+    "tags": [
+      "woman",
+      "laptop",
+      "desk",
+      "coffee-mug",
+      "books",
+      "potted-plant",
+      "chair",
+      "focused",
+      "solitary",
+      "nostalgic",
+      "centered",
+      "large-negative-space",
+      "about-page",
+      "hero-section",
+      "feature-block",
+      "pull-quote"
+    ]
+  },
+  "engineers-manual-31": {
+    "title": "Hummingbird in Suspended Flight",
+    "description": "A hummingbird caught mid-hover, wings spread wide in detailed engraved crosshatching, conveying a sense of fleeting delicacy and natural wonder. The generous white space around the subject lends it an airy, suspended quality perfect for editorial contexts.",
+    "tags": [
+      "hummingbird",
+      "bird",
+      "flight",
+      "wings",
+      "nature",
+      "delicate",
+      "wonder",
+      "upper-center",
+      "large-negative-space",
+      "hero-section",
+      "section-divider",
+      "pull-quote"
+    ]
+  },
+  "engineers-manual-32": {
+    "title": "Solitary Figure, Old City Street",
+    "description": "A lone hatted figure stands at the mouth of a narrow urban canyon, dwarfed by towering Victorian facades receding into the distance. The scene evokes solitude, contemplation, and the quiet weight of a city that outlasts its inhabitants.",
+    "tags": [
+      "figure",
+      "cityscape",
+      "architecture",
+      "cobblestone street",
+      "buildings",
+      "solitary",
+      "melancholic",
+      "atmospheric",
+      "nostalgic",
+      "centered",
+      "large-negative-space",
+      "hero-section",
+      "pull-quote",
+      "about-page"
+    ]
+  },
+  "engineers-manual-33": {
+    "title": "Solitary Figure, City Street",
+    "description": "A lone man in a long coat and fedora crosses a cobblestone urban street, flanked by densely crosshatched buildings and parked vintage cars receding into the distance. The scene evokes a brooding, cinematic solitude — mid-century European city life caught in a quiet, unhurried moment.",
+    "tags": [
+      "figure",
+      "street",
+      "architecture",
+      "coat",
+      "fedora",
+      "urban",
+      "cobblestone",
+      "vintage-cars",
+      "melancholic",
+      "cinematic",
+      "centered",
+      "hero-section",
+      "about-page",
+      "pull-quote"
+    ]
+  },
+  "engineers-manual-34": {
+    "title": "Trawler Riding Rough Seas",
+    "description": "A sturdy fishing vessel crests turbulent ocean waves beneath a wide open sky, with seabirds circling in the distance. The dense crosshatching of the churning water conveys both the power of the sea and the resilience of those who work it.",
+    "tags": [
+      "fishing boat",
+      "ocean waves",
+      "trawler",
+      "seabirds",
+      "maritime",
+      "dramatic",
+      "adventurous",
+      "rugged",
+      "bottom-anchored",
+      "large-negative-space",
+      "section-divider",
+      "hero-section"
+    ]
+  },
+  "engineers-manual-35": {
+    "title": "Single Rose, Half Bloom",
+    "description": "A meticulously engraved rose mid-bloom, its thorned stem flanked by serrated leaves rendered in dense crosshatching. The piece carries a romantic yet melancholic air, evoking botanical manuscripts and quiet devotion.",
+    "tags": [
+      "rose",
+      "botanical",
+      "flower",
+      "thorns",
+      "leaves",
+      "romantic",
+      "nostalgic",
+      "centered",
+      "large-negative-space",
+      "hero-section",
+      "pull-quote",
+      "section-divider"
+    ]
+  },
+  "engineers-manual-36": {
+    "title": "Ground Crew, Tarmac Bustle",
+    "description": "A mid-century commercial airliner surrounded by ground workers unloading cargo crates, forklifts, and ground vehicles in a scene of industrious activity. The illustration evokes the romantic era of early commercial aviation — purposeful, worldly, and alive with human labor.",
+    "tags": [
+      "airplane",
+      "airport",
+      "ground crew",
+      "cargo",
+      "workers",
+      "vehicles",
+      "industrious",
+      "nostalgic",
+      "wide-scene",
+      "large-negative-space",
+      "centered",
+      "hero-section",
+      "feature-block",
+      "section-divider"
+    ]
+  },
+  "engineers-manual-37": {
+    "title": "The Scholar's Reading Corner",
+    "description": "A wingback armchair sits nestled before a towering bookcase packed with volumes, curiosities, and ceramic vessels, evoking the unhurried solitude of a private library. The scene radiates intellectual warmth and the quiet pleasure of a life spent among books.",
+    "tags": [
+      "armchair",
+      "bookcase",
+      "library",
+      "interior",
+      "books",
+      "furniture",
+      "nostalgic",
+      "contemplative",
+      "solitary",
+      "centered",
+      "large-negative-space",
+      "about-page",
+      "hero-section",
+      "feature-block"
+    ]
+  },
+  "engineers-manual-38": {
+    "title": "Solitary Figure, Deep Forest",
+    "description": "A cloaked figure walks alone along a forest path flanked by towering conifers, dwarfed by the ancient trees on either side. The composition evokes solitude, mystery, and the quiet tension of a fairy-tale journey.",
+    "tags": [
+      "forest",
+      "cloaked figure",
+      "pine trees",
+      "path",
+      "solitary",
+      "mysterious",
+      "fairy-tale",
+      "nostalgic",
+      "large-negative-space",
+      "edge-bleeding",
+      "hero-section",
+      "section-divider"
+    ]
+  },
+  "engineers-manual-39": {
+    "title": "Botanist's Table, Midday",
+    "description": "A cluttered potting table crowded with flowering plants, open books, and small vessels, beside a simple wooden chair and watering cans below. The scene evokes the quiet industriousness of a 19th-century gardener or naturalist at work.",
+    "tags": [
+      "table",
+      "potted-plants",
+      "chair",
+      "watering-can",
+      "botanist",
+      "flowers",
+      "interior",
+      "nostalgic",
+      "studious",
+      "centered",
+      "large-negative-space",
+      "about-page",
+      "feature-block",
+      "section-divider"
+    ]
+  },
+  "engineers-manual-40": {
+    "title": "Two Connectors, Almost Meeting",
+    "description": "A pair of coaxial cable connectors face one another in close proximity, their threaded ends rendered with meticulous crosshatching that evokes the precision of technical draftsmanship. The composition suggests anticipation and potential — connection imminent but not yet made.",
+    "tags": [
+      "cable connectors",
+      "coaxial",
+      "technology",
+      "hardware",
+      "anticipatory",
+      "mechanical",
+      "precise",
+      "centered",
+      "large-negative-space",
+      "feature-block",
+      "section-divider",
+      "about-page"
+    ]
+  },
+  "engineers-manual-41": {
+    "title": "The Watching Eye, Close",
+    "description": "A single human eye rendered in dense crosshatching emerges from a heavily textured field, its gaze direct and unflinching. The illustration evokes surveillance, introspection, and a quietly unsettling sense of being observed.",
+    "tags": [
+      "eye",
+      "portrait",
+      "anatomical",
+      "crosshatching",
+      "intense",
+      "mysterious",
+      "unsettling",
+      "watchful",
+      "centered",
+      "edge-bleeding",
+      "hero-section",
+      "feature-block"
+    ]
+  }
+}

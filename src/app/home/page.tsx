@@ -21,6 +21,13 @@ export default function HeroPage() {
   const [activeCollectionId, setActiveCollectionId] = useState(mockCollections[0]?.id || '')
   
   const activeCollection = mockCollections.find(c => c.id === activeCollectionId)
+  
+  // Calculate animation duration based on number of assets for consistent speed
+  const ITEM_WIDTH = 256 + 32 // width + gap
+  const PIXELS_PER_SECOND = 50 // desired scroll speed
+  const assetCount = activeCollection?.assets?.length || 1
+  const totalWidth = assetCount * ITEM_WIDTH
+  const animationDuration = totalWidth / PIXELS_PER_SECOND
 
   useEffect(() => {
     if (!loading && user) {
@@ -89,7 +96,7 @@ export default function HeroPage() {
       <section
         className="w-full"
         style={{
-          backgroundColor: '#f3e8d2',
+          backgroundColor: '#f7f3eb',
           backgroundImage:
             'linear-gradient(rgba(255,255,255,0.10), rgba(255,255,255,0.10)), url(/paper-grain.svg)',
           backgroundRepeat: 'repeat, repeat',
@@ -120,7 +127,7 @@ export default function HeroPage() {
       <section
         className="w-full"
         style={{
-          backgroundColor: '#f3e8d2',
+          backgroundColor: '#f7f3eb',
           backgroundImage:
             'linear-gradient(rgba(255,255,255,0.10), rgba(255,255,255,0.10)), url(/paper-grain.svg)',
           backgroundRepeat: 'repeat, repeat',
@@ -189,7 +196,7 @@ export default function HeroPage() {
       <section
         className="w-full overflow-hidden"
         style={{
-          backgroundColor: '#f3e8d2',
+          backgroundColor: '#f7f3eb',
           backgroundImage:
             'linear-gradient(rgba(255,255,255,0.10), rgba(255,255,255,0.10)), url(/paper-grain.svg)',
           backgroundRepeat: 'repeat, repeat',
@@ -222,9 +229,10 @@ export default function HeroPage() {
             onMouseLeave={() => setCarouselPaused(false)}
           >
             <div
+              key={activeCollectionId}
               className="flex gap-8"
               style={{
-                animation: 'scroll-left 40s linear infinite',
+                animation: `scroll-left ${animationDuration}s linear infinite`,
                 animationPlayState: carouselPaused ? 'paused' : 'running',
                 width: 'max-content',
                 willChange: 'transform',
@@ -232,18 +240,34 @@ export default function HeroPage() {
                 transform: 'translateZ(0)',
               }}
             >
-              {activeCollection?.assets?.map((asset) => (
-                <div
-                  key={asset.id}
-                  className="w-64 h-64 flex-shrink-0 bg-black/10"
-                  style={{
-                    backgroundImage: `url(${asset.imageUrl})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    backfaceVisibility: 'hidden',
-                  }}
-                />
-              ))}
+              {/* Duplicate assets for seamless infinite scroll */}
+              {[...Array(2)].map((_, setIndex) =>
+                activeCollection?.assets?.map((asset) => (
+                  <div
+                    key={`${setIndex}-${asset.id}`}
+                    className="w-64 h-64 flex-shrink-0 p-8"
+                    style={{
+                      backfaceVisibility: 'hidden',
+                      backgroundColor: '#ffffff',
+                      backgroundImage:
+                        'linear-gradient(rgba(255,255,255,0.10), rgba(255,255,255,0.10)), url(/paper-grain.svg)',
+                      backgroundRepeat: 'repeat, repeat',
+                      backgroundSize: 'auto, 512px 512px',
+                      backgroundBlendMode: 'normal, multiply',
+                    }}
+                  >
+                    <div
+                      className="w-full h-full"
+                      style={{
+                        backgroundImage: `url(${asset.metadata?.normalizedPngUrl || asset.imageUrl})`,
+                        backgroundSize: 'contain',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                      }}
+                    />
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>

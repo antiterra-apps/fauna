@@ -19,7 +19,8 @@
     "list:blob:assets": "tsx scripts/list-blob-assets.ts",
     "generate:svgs": "tsx scripts/generate-svgs.ts",
     "generate:svgs:all": "tsx scripts/generate-svgs.ts all",
-    "generate:svgs:new": "tsx scripts/generate-svgs.ts new"
+    "generate:svgs:new": "tsx scripts/generate-svgs.ts new",
+    "enrich": "npx ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/enrich-catalog.ts"
   },
   "dependencies": {
     "@tabler/icons-react": "^3.36.1",
@@ -30,10 +31,12 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@vercel/blob": "^2.0.0",
+    "@anthropic-ai/sdk": "^0.40.1",
     "@types/node": "^20.14.12",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@vercel/blob": "^2.0.0",
+    "@vitest/coverage-v8": "^2.0.0",
     "autoprefixer": "^10.4.19",
     "imagetracerjs": "^1.2.6",
     "pngjs": "^7.0.0",
@@ -41,9 +44,9 @@
     "potrace": "^2.1.8",
     "sharp": "^0.34.4",
     "tailwindcss": "^3.4.7",
+    "ts-node": "^10.9.2",
     "tsx": "^4.20.5",
     "typescript": "^5.5.4",
-    "vitest": "^2.0.0",
-    "@vitest/coverage-v8": "^2.0.0"
+    "vitest": "^2.0.0"
   }
 }
